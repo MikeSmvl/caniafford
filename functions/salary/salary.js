@@ -22,7 +22,7 @@ exports.netIncome = functions.https.onRequest((request, response) => {
             provincesArray.includes(request.body.province) &&
             typeof request.body.salary == 'number'
         ) {
-            let netIncome = calculateNetIncome(70000, 'QC');
+            let netIncome = calculateNetIncome(70000, request.body.province);
             response.send({
                 yearly: Math.round(netIncome),
                 monthly: Math.round(netIncome / 12),
