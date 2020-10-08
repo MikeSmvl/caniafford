@@ -16,13 +16,19 @@ const provincesArray = [
     'SK',
     'YT',
 ];
+
 exports.netIncome = functions.https.onRequest((request, response) => {
+    response.set('Access-Control-Allow-Origin', '*');
     try {
+        request.body = JSON.parse(request.body);
         if (
             provincesArray.includes(request.body.province) &&
-            typeof request.body.salary == 'number'
+            typeof request.body.salary === 'number'
         ) {
-            let netIncome = calculateNetIncome(70000, request.body.province);
+            let netIncome = calculateNetIncome(
+                request.body.salary,
+                request.body.province
+            );
             response.send({
                 yearly: Math.round(netIncome),
                 monthly: Math.round(netIncome / 12),
