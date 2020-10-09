@@ -84,11 +84,11 @@ function App() {
                 )}
                 {netIncome.biweekly > 0 && (
                     <label>
-                        Your daily net income is: {netIncome.biweekly}
+                        Your biweekly net income is: {netIncome.biweekly}
                     </label>
                 )}
                 {netIncome.weekly > 0 && (
-                    <label>Your daily net income is: {netIncome.weekly}</label>
+                    <label>Your weekly net income is: {netIncome.weekly}</label>
                 )}
                 {netIncome.day > 0 && (
                     <label>Your daily net income is: {netIncome.day}</label>
