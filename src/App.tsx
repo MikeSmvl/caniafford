@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 
 function App() {
     const [salary, setSalary] = React.useState(70000);
@@ -13,6 +13,11 @@ function App() {
         day: 0,
         hourly: 0,
     });
+    const [savedUp, setSavedUp] = React.useState(0);
+    const [houseBudget, setHouseBudget] = React.useState(450000);
+    const [monthlyExpenses, setMonthlyExpenses] = React.useState(0);
+    const frontRatio = 0.29;
+    const backRatio = 0.36;
 
     React.useEffect(() => {
         const getData = async () => {
@@ -34,68 +39,85 @@ function App() {
         });
     }, [salary, province]);
 
-    const handleSalaryChange = (e: any) => {
-        setSalary(Number(e.target.value));
-    };
-
-    const handleProvinceChange = (e: any) => {
-        console.log(e.target.value);
-        setProvince(e.target.value);
-    };
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <label>What is your yearly salary:</label>
-                <br />
-                <input
-                    placeholder="70000"
-                    onBlur={(e) => handleSalaryChange(e)}
-                ></input>
-                <br />
-                <label>Choose a province:</label>
-                <br />
-                <select
-                    name="provinces"
-                    onChange={(e) => handleProvinceChange(e)}
-                >
-                    <option value="AB">Alberta</option>
-                    <option value="BC">British Columbia</option>
-                    <option value="MB">Manitoba</option>
-                    <option value="NB">New Brunswick</option>
-                    <option value="NL">Newfoundland and Labrador</option>
-                    <option value="NT">Northwest Territories</option>
-                    <option value="NS">Nova Scotia</option>
-                    <option value="NU">Nunavut</option>
-                    <option value="ON">Ontario</option>
-                    <option value="PE">Audi</option>
-                    <option value="QC">Quebec</option>
-                    <option value="SK">Saskatchewan</option>
-                    <option value="YT">Yukon Territories</option>
-                </select>
-                <br />
-                {netIncome.yearly > 0 && (
-                    <label>Your yearly net income is: {netIncome.yearly}</label>
-                )}
-                {netIncome.monthly > 0 && (
-                    <label>
-                        Your monthly net income is: {netIncome.monthly}
-                    </label>
-                )}
-                {netIncome.biweekly > 0 && (
-                    <label>
-                        Your biweekly net income is: {netIncome.biweekly}
-                    </label>
-                )}
-                {netIncome.weekly > 0 && (
-                    <label>Your weekly net income is: {netIncome.weekly}</label>
-                )}
-                {netIncome.day > 0 && (
-                    <label>Your daily net income is: {netIncome.day}</label>
-                )}
-                {netIncome.hourly > 0 && (
-                    <label>Your hourly net income is: {netIncome.hourly}</label>
-                )}
+                <div className="left-side">
+                    <label>Gross Yearly Income:</label>
+                    <br />
+                    <input
+                        placeholder="70000"
+                        type="number"
+                        onBlur={(e) => setSalary(Number(e.target.value))}
+                    ></input>
+                    <br />
+                    <label>Province:</label>
+                    <br />
+                    <select
+                        name="provinces"
+                        onChange={(e) => setProvince(e.target.value)}
+                    >
+                        <option value="AB">Alberta</option>
+                        <option value="BC">British Columbia</option>
+                        <option value="MB">Manitoba</option>
+                        <option value="NB">New Brunswick</option>
+                        <option value="NL">Newfoundland and Labrador</option>
+                        <option value="NT">Northwest Territories</option>
+                        <option value="NS">Nova Scotia</option>
+                        <option value="NU">Nunavut</option>
+                        <option value="ON">Ontario</option>
+                        <option value="PE">Audi</option>
+                        <option value="QC">Quebec</option>
+                        <option value="SK">Saskatchewan</option>
+                        <option value="YT">Yukon Territories</option>
+                    </select>
+                    <br />
+                    <label>Downpayment:</label>
+                    <br />
+                    <input
+                        placeholder="0"
+                        type="number"
+                        onBlur={(e) => setSavedUp(Number(e.target.value))}
+                    ></input>
+                    <br />
+                    <label>Home Price:</label>
+                    <br />
+                    <input
+                        placeholder="450000"
+                        type="number"
+                        onBlur={(e) => setHouseBudget(Number(e.target.value))}
+                    ></input>
+                    <br />
+                    <label>Monthly Expenses:</label>
+                    <br />
+                    <input
+                        placeholder="0"
+                        type="number"
+                        onBlur={(e) =>
+                            setMonthlyExpenses(Number(e.target.value))
+                        }
+                    ></input>
+                </div>
+                <div className="right-side">
+                    {netIncome.monthly > 0 && (
+                        <label>
+                            Your monthly net income is: {netIncome.monthly}
+                        </label>
+                    )}
+                    <br />
+                    {netIncome.monthly > 0 && (
+                        <label>
+                            Your monthly mortgage payments are: {'TBD'}
+                        </label>
+                    )}
+                    <br />
+                    {netIncome.monthly > 0 && (
+                        <label>
+                            Your monthly savings are:{' '}
+                            {netIncome.monthly - monthlyExpenses}
+                        </label>
+                    )}
+                </div>
             </header>
         </div>
     );
