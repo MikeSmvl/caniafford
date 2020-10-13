@@ -13,6 +13,9 @@ function App() {
         day: 0,
         hourly: 0,
     });
+    const [savedUp, setSavedUp] = React.useState(0);
+    const [downPaymentPerc, setDownPaymentPerc] = React.useState(20);
+    const [houseBudget, setHouseBudget] = React.useState(450000);
 
     React.useEffect(() => {
         const getData = async () => {
@@ -34,14 +37,6 @@ function App() {
         });
     }, [salary, province]);
 
-    const handleSalaryChange = (e: any) => {
-        setSalary(Number(e.target.value));
-    };
-
-    const handleProvinceChange = (e: any) => {
-        console.log(e.target.value);
-        setProvince(e.target.value);
-    };
     return (
         <div className="App">
             <header className="App-header">
@@ -50,14 +45,15 @@ function App() {
                 <br />
                 <input
                     placeholder="70000"
-                    onBlur={(e) => handleSalaryChange(e)}
+                    type="number"
+                    onBlur={(e) => setSalary(Number(e.target.value))}
                 ></input>
                 <br />
                 <label>Choose a province:</label>
                 <br />
                 <select
                     name="provinces"
-                    onChange={(e) => handleProvinceChange(e)}
+                    onChange={(e) => setProvince(e.target.value)}
                 >
                     <option value="AB">Alberta</option>
                     <option value="BC">British Columbia</option>
@@ -74,6 +70,29 @@ function App() {
                     <option value="YT">Yukon Territories</option>
                 </select>
                 <br />
+                <label>Amount saved up so far:</label>
+                <br />
+                <input
+                    placeholder="0"
+                    type="number"
+                    onBlur={(e) => setSavedUp(Number(e.target.value))}
+                ></input>
+                <br />
+                <label>Desired down payment percentage:</label>
+                <br />
+                <input
+                    placeholder="20"
+                    type="number"
+                    onBlur={(e) => setDownPaymentPerc(Number(e.target.value))}
+                ></input>
+                <br />
+                <label>Budget for house:</label>
+                <br />
+                <input
+                    placeholder="450000"
+                    type="number"
+                    onBlur={(e) => setHouseBudget(Number(e.target.value))}
+                ></input>
                 {netIncome.yearly > 0 && (
                     <label>Your yearly net income is: {netIncome.yearly}</label>
                 )}
