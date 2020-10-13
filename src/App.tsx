@@ -37,13 +37,13 @@ function App() {
             return response.json();
         };
         getData().then((data) => {
-            console.log(data);
             setNetIncome(data);
         });
     }, [salary, province]);
 
     return (
         <div className="App">
+            <h1 className="title">Housing Strategy</h1>
             <header className="App-header">
                 <div className="left-side">
                     <label>Gross Yearly Income:</label>
