@@ -40,81 +40,90 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <label>What is your yearly salary:</label>
-                <br />
-                <input
-                    placeholder="70000"
-                    type="number"
-                    onBlur={(e) => setSalary(Number(e.target.value))}
-                ></input>
-                <br />
-                <label>Choose a province:</label>
-                <br />
-                <select
-                    name="provinces"
-                    onChange={(e) => setProvince(e.target.value)}
-                >
-                    <option value="AB">Alberta</option>
-                    <option value="BC">British Columbia</option>
-                    <option value="MB">Manitoba</option>
-                    <option value="NB">New Brunswick</option>
-                    <option value="NL">Newfoundland and Labrador</option>
-                    <option value="NT">Northwest Territories</option>
-                    <option value="NS">Nova Scotia</option>
-                    <option value="NU">Nunavut</option>
-                    <option value="ON">Ontario</option>
-                    <option value="PE">Audi</option>
-                    <option value="QC">Quebec</option>
-                    <option value="SK">Saskatchewan</option>
-                    <option value="YT">Yukon Territories</option>
-                </select>
-                <br />
-                <label>Amount saved up so far:</label>
-                <br />
-                <input
-                    placeholder="0"
-                    type="number"
-                    onBlur={(e) => setSavedUp(Number(e.target.value))}
-                ></input>
-                <br />
-                <label>Desired down payment percentage:</label>
-                <br />
-                <input
-                    placeholder="20"
-                    type="number"
-                    onBlur={(e) => setDownPaymentPerc(Number(e.target.value))}
-                ></input>
-                <br />
-                <label>Budget for house:</label>
-                <br />
-                <input
-                    placeholder="450000"
-                    type="number"
-                    onBlur={(e) => setHouseBudget(Number(e.target.value))}
-                ></input>
-                {netIncome.yearly > 0 && (
-                    <label>Your yearly net income is: {netIncome.yearly}</label>
-                )}
-                {netIncome.monthly > 0 && (
-                    <label>
-                        Your monthly net income is: {netIncome.monthly}
-                    </label>
-                )}
-                {netIncome.biweekly > 0 && (
-                    <label>
-                        Your biweekly net income is: {netIncome.biweekly}
-                    </label>
-                )}
-                {netIncome.weekly > 0 && (
-                    <label>Your weekly net income is: {netIncome.weekly}</label>
-                )}
-                {netIncome.day > 0 && (
-                    <label>Your daily net income is: {netIncome.day}</label>
-                )}
-                {netIncome.hourly > 0 && (
-                    <label>Your hourly net income is: {netIncome.hourly}</label>
-                )}
+                <div className="left-side">
+                    <label>What is your yearly salary:</label>
+                    <br />
+                    <input
+                        placeholder="70000"
+                        type="number"
+                        onBlur={(e) => setSalary(Number(e.target.value))}
+                    ></input>
+                    <br />
+                    <label>Choose a province:</label>
+                    <br />
+                    <select
+                        name="provinces"
+                        onChange={(e) => setProvince(e.target.value)}
+                    >
+                        <option value="AB">Alberta</option>
+                        <option value="BC">British Columbia</option>
+                        <option value="MB">Manitoba</option>
+                        <option value="NB">New Brunswick</option>
+                        <option value="NL">Newfoundland and Labrador</option>
+                        <option value="NT">Northwest Territories</option>
+                        <option value="NS">Nova Scotia</option>
+                        <option value="NU">Nunavut</option>
+                        <option value="ON">Ontario</option>
+                        <option value="PE">Audi</option>
+                        <option value="QC">Quebec</option>
+                        <option value="SK">Saskatchewan</option>
+                        <option value="YT">Yukon Territories</option>
+                    </select>
+                    <br />
+                    <label>Amount saved up so far:</label>
+                    <br />
+                    <input
+                        placeholder="0"
+                        type="number"
+                        onBlur={(e) => setSavedUp(Number(e.target.value))}
+                    ></input>
+                    <br />
+                    <label>Desired down payment percentage:</label>
+                    <br />
+                    <input
+                        placeholder="20"
+                        type="number"
+                        onBlur={(e) => setDownPaymentPerc(Number(e.target.value))}
+                    ></input>
+                    <br />
+                    <label>Budget for house:</label>
+                    <br />
+                    <input
+                        placeholder="450000"
+                        type="number"
+                        onBlur={(e) => setHouseBudget(Number(e.target.value))}
+                    ></input>
+                </div>
+                <div className="right-side">
+                    {netIncome.yearly > 0 && (
+                        <label>Your yearly net income is: {netIncome.yearly}</label>
+                    )}
+                    <br />
+                    {netIncome.monthly > 0 && (
+                        <label>
+                            Your monthly net income is: {netIncome.monthly}
+                        </label>
+                    )}
+                    <br />
+                    {netIncome.biweekly > 0 && (
+                        <label>
+                            Your biweekly net income is: {netIncome.biweekly}
+                        </label>
+                    )}
+                    <br />
+                    {netIncome.weekly > 0 && (
+                        <label>Your weekly net income is: {netIncome.weekly}</label>
+                    )}
+                    <br />
+                    {netIncome.day > 0 && (
+                        <label>Your daily net income is: {netIncome.day}</label>
+                    )}
+                    <br />
+                    {netIncome.hourly > 0 && (
+                        <label>Your hourly net income is: {netIncome.hourly}</label>
+                    )}
+                    <br />
+                </div>
             </header>
         </div>
     );
