@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.scss';
 
 function App() {
@@ -13,10 +12,14 @@ function App() {
         day: 0,
         hourly: 0,
     });
+    // eslint-disable-next-line
     const [savedUp, setSavedUp] = React.useState(0);
+    // eslint-disable-next-line
     const [houseBudget, setHouseBudget] = React.useState(450000);
     const [monthlyExpenses, setMonthlyExpenses] = React.useState(0);
+    // eslint-disable-next-line
     const frontRatio = 0.29;
+    // eslint-disable-next-line
     const backRatio = 0.36;
 
     React.useEffect(() => {
