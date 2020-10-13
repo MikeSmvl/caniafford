@@ -14,8 +14,10 @@ function App() {
         hourly: 0,
     });
     const [savedUp, setSavedUp] = React.useState(0);
-    const [downPaymentPerc, setDownPaymentPerc] = React.useState(20);
     const [houseBudget, setHouseBudget] = React.useState(450000);
+    const [monthlyExpenses, setMonthlyExpenses] = React.useState(0);
+    const frontRatio = 0.29;
+    const backRatio = 0.36;
 
     React.useEffect(() => {
         const getData = async () => {
@@ -41,7 +43,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <div className="left-side">
-                    <label>What is your yearly salary:</label>
+                    <label>Gross Yearly Income:</label>
                     <br />
                     <input
                         placeholder="70000"
@@ -49,7 +51,7 @@ function App() {
                         onBlur={(e) => setSalary(Number(e.target.value))}
                     ></input>
                     <br />
-                    <label>Choose a province:</label>
+                    <label>Province:</label>
                     <br />
                     <select
                         name="provinces"
@@ -70,7 +72,7 @@ function App() {
                         <option value="YT">Yukon Territories</option>
                     </select>
                     <br />
-                    <label>Amount saved up so far:</label>
+                    <label>Downpayment:</label>
                     <br />
                     <input
                         placeholder="0"
@@ -78,51 +80,43 @@ function App() {
                         onBlur={(e) => setSavedUp(Number(e.target.value))}
                     ></input>
                     <br />
-                    <label>Desired down payment percentage:</label>
-                    <br />
-                    <input
-                        placeholder="20"
-                        type="number"
-                        onBlur={(e) => setDownPaymentPerc(Number(e.target.value))}
-                    ></input>
-                    <br />
-                    <label>Budget for house:</label>
+                    <label>Home Price:</label>
                     <br />
                     <input
                         placeholder="450000"
                         type="number"
                         onBlur={(e) => setHouseBudget(Number(e.target.value))}
                     ></input>
+                    <br />
+                    <label>Monthly Expenses:</label>
+                    <br />
+                    <input
+                        placeholder="0"
+                        type="number"
+                        onBlur={(e) =>
+                            setMonthlyExpenses(Number(e.target.value))
+                        }
+                    ></input>
                 </div>
                 <div className="right-side">
-                    {netIncome.yearly > 0 && (
-                        <label>Your yearly net income is: {netIncome.yearly}</label>
-                    )}
-                    <br />
                     {netIncome.monthly > 0 && (
                         <label>
                             Your monthly net income is: {netIncome.monthly}
                         </label>
                     )}
                     <br />
-                    {netIncome.biweekly > 0 && (
+                    {netIncome.monthly > 0 && (
                         <label>
-                            Your biweekly net income is: {netIncome.biweekly}
+                            Your monthly mortgage payments are: {'TBD'}
                         </label>
                     )}
                     <br />
-                    {netIncome.weekly > 0 && (
-                        <label>Your weekly net income is: {netIncome.weekly}</label>
+                    {netIncome.monthly > 0 && (
+                        <label>
+                            Your monthly savings are:{' '}
+                            {netIncome.monthly - monthlyExpenses}
+                        </label>
                     )}
-                    <br />
-                    {netIncome.day > 0 && (
-                        <label>Your daily net income is: {netIncome.day}</label>
-                    )}
-                    <br />
-                    {netIncome.hourly > 0 && (
-                        <label>Your hourly net income is: {netIncome.hourly}</label>
-                    )}
-                    <br />
                 </div>
             </header>
         </div>
