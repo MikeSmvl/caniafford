@@ -13,7 +13,7 @@ function App() {
         hourly: 0,
     });
     // eslint-disable-next-line
-    const [savedUp, setSavedUp] = React.useState(0);
+    const [downpayment, setDownPayment] = React.useState(0);
     // eslint-disable-next-line
     const [houseBudget, setHouseBudget] = React.useState(450000);
     const [monthlyExpenses, setMonthlyExpenses] = React.useState(0);
@@ -21,6 +21,26 @@ function App() {
     const frontRatio = 0.29;
     // eslint-disable-next-line
     const backRatio = 0.36;
+
+    const calculateDownpaymentTime = (
+        currentDownpayment: number,
+        housePrice: number,
+        percentage: number,
+        netIncome: number,
+        monthlyExpenses: number
+    ) => {
+        const amountNeeded = (percentage / 100) * housePrice;
+
+        if (currentDownpayment >= amountNeeded) {
+            return 0;
+        }
+
+        const amountLeftToSave = amountNeeded - currentDownpayment;
+
+        const timeInMonths = amountLeftToSave / (netIncome - monthlyExpenses);
+
+        return Math.round(timeInMonths);
+    };
 
     React.useEffect(() => {
         const getData = async () => {
@@ -75,12 +95,12 @@ function App() {
                         <option value="YT">Yukon Territories</option>
                     </select>
                     <br />
-                    <label>Downpayment:</label>
+                    <label>Down Payment:</label>
                     <br />
                     <input
                         placeholder="0"
                         type="number"
-                        onBlur={(e) => setSavedUp(Number(e.target.value))}
+                        onBlur={(e) => setDownPayment(Number(e.target.value))}
                     ></input>
                     <br />
                     <label>Home Price:</label>
@@ -110,14 +130,28 @@ function App() {
                     <br />
                     {netIncome.monthly > 0 && (
                         <label>
-                            Your monthly mortgage payments are: {'TBD'}
+                            Your monthly savings are:{' '}
+                            {netIncome.monthly - monthlyExpenses}
                         </label>
                     )}
                     <br />
                     {netIncome.monthly > 0 && (
                         <label>
-                            Your monthly savings are:{' '}
-                            {netIncome.monthly - monthlyExpenses}
+                            {'Time to save 20% down payment: '}
+                            {calculateDownpaymentTime(
+                                downpayment,
+                                houseBudget,
+                                20,
+                                netIncome.monthly,
+                                monthlyExpenses
+                            )}
+                            {' months'}
+                        </label>
+                    )}
+                    <br />
+                    {netIncome.monthly > 0 && (
+                        <label>
+                            Your monthly mortgage payments are: {'TBD'}
                         </label>
                     )}
                 </div>
