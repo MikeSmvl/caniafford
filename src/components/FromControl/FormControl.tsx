@@ -98,7 +98,7 @@ const FormControl = (props: IFromControlProps) => {
 							className='absolute mt-1 w-full rounded-md bg-white shadow-lg dropdown-menu'
 							style={openDropdown ? {display: 'block'} : {display: 'none'}}>
 							<ul
-								tabIndex={-1}
+								tabIndex={0}
 								role='listbox'
 								aria-labelledby='listbox-label'
 								aria-activedescendant='listbox-item-3'
@@ -133,7 +133,8 @@ const SelectMenu = (props: any) => {
 		<li
 			tabIndex={-1}
 			id='listbox-option-0'
-			role='option'
+      role='option'
+      aria-selected={false}
 			className='text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9'
 			{...props}>
 			<span className='font-normal block truncate'>{props.menuItem}</span>
