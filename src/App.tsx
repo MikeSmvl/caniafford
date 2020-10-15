@@ -1,8 +1,11 @@
 import React from 'react';
 import './App.scss';
+import './tailwind.css';
+import FormControl from '../src/components/FromControl/FormControl';
 
 function App() {
     const [salary, setSalary] = React.useState(70000);
+    // eslint-disable-next-line
     const [province, setProvince] = React.useState('AB');
     const [netIncome, setNetIncome] = React.useState({
         yearly: 0,
@@ -66,17 +69,39 @@ function App() {
             <h1 className="title">Housing Strategy</h1>
             <header className="App-header">
                 <div className="left-side">
-                    <label>Gross Yearly Income:</label>
                     <br />
-                    <input
+                    <FormControl
+                        label="Gross Yearly Income"
+                        placeholder="0.0"
+                        type="fincancial"
+                        onBlur={(e) => setSalary(Number(e.target.value))}
+                    />
+                    {/* <input
                         placeholder="70000"
                         type="number"
                         onBlur={(e) => setSalary(Number(e.target.value))}
-                    ></input>
+                    ></input> */}
                     <br />
-                    <label>Province:</label>
-                    <br />
-                    <select
+                    <FormControl
+                        label="Province"
+                        type="select"
+                        selectedItem="Quebec"
+                        selectMenu={[
+                            'Alberta',
+                            'British Columbia',
+                            'Manitoba',
+                            'New Brunswick',
+                            'Newfoundland and Labrador',
+                            'Nova Scotia',
+                            'Nunavut',
+                            'Ontario',
+                            'Prince Edward Island',
+                            'Quebec',
+                            'Saskatchewan',
+                            'Yukon Territories',
+                        ]}
+                    />
+                    {/* <select
                         name="provinces"
                         onChange={(e) => setProvince(e.target.value)}
                     >
@@ -93,33 +118,47 @@ function App() {
                         <option value="QC">Quebec</option>
                         <option value="SK">Saskatchewan</option>
                         <option value="YT">Yukon Territories</option>
-                    </select>
+                    </select> */}
                     <br />
-                    <label>Down Payment:</label>
-                    <br />
-                    <input
+                    <FormControl
+                        label="Down Payment"
+                        type="fincancial"
+                        placeholder="0.0"
+                        onBlur={(e) => setDownPayment(Number(e.target.value))}
+                    />
+                    {/* <input
                         placeholder="0"
                         type="number"
                         onBlur={(e) => setDownPayment(Number(e.target.value))}
-                    ></input>
+                    ></input> */}
                     <br />
-                    <label>Home Price:</label>
-                    <br />
-                    <input
+                    <FormControl
+                        label="Home Price"
+                        type="fincancial"
+                        placeholder="450000"
+                        onBlur={(e) => setHouseBudget(Number(e.target.value))}
+                    />
+                    {/* <input
                         placeholder="450000"
                         type="number"
                         onBlur={(e) => setHouseBudget(Number(e.target.value))}
-                    ></input>
+                    ></input> */}
                     <br />
-                    <label>Monthly Expenses:</label>
-                    <br />
-                    <input
+                    <FormControl
+                        label="Monthly Expenses"
+                        type="fincancial"
+                        placeholder="0.0"
+                        onBlur={(e) =>
+                            setMonthlyExpenses(Number(e.target.value))
+                        }
+                    />
+                    {/* <input
                         placeholder="0"
                         type="number"
                         onBlur={(e) =>
                             setMonthlyExpenses(Number(e.target.value))
                         }
-                    ></input>
+                    ></input> */}
                 </div>
                 <div className="right-side">
                     {netIncome.monthly > 0 && (
