@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.scss';
+import './tailwind.css';
 
 function App() {
     const [salary, setSalary] = React.useState(70000);
