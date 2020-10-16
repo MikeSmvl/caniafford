@@ -1,7 +1,10 @@
 import React from 'react';
 import './App.scss';
 import './tailwind.css';
-import FormControl from '../src/components/FromControl/FormControl';
+import Navbar from './components/Navbar/Navbar';
+import FormControl from './components/FromControl/FormControl';
+import { ProvinceMapper } from './utils/provinceTool';
+import { getMortgagePayment } from './utils/mortgageTool';
 
 function App() {
     const [salary, setSalary] = React.useState(70000);
@@ -18,12 +21,12 @@ function App() {
     // eslint-disable-next-line
     const [downpayment, setDownPayment] = React.useState(0);
     // eslint-disable-next-line
-    const [houseBudget, setHouseBudget] = React.useState(450000);
+    const [houseBudget, setHouseBudget] = React.useState(500000);
     const [monthlyExpenses, setMonthlyExpenses] = React.useState(0);
-    // eslint-disable-next-line
-    const frontRatio = 0.29;
-    // eslint-disable-next-line
-    const backRatio = 0.36;
+    const [amortization, setAmortization] = React.useState(25);
+    const [interest, setInterest] = React.useState(2);
+
+    const principal = houseBudget - downpayment;
 
     const calculateDownpaymentTime = (
         currentDownpayment: number,
@@ -66,23 +69,20 @@ function App() {
 
     return (
         <div className="App">
-            <h1 className="title">Housing Strategy</h1>
+            <Navbar></Navbar>
             <header className="App-header">
                 <div className="left-side">
                     <br />
                     <FormControl
+                        id="income"
                         label="Gross Yearly Income"
-                        placeholder="0.0"
+                        placeholder={salary.toString()}
                         type="fincancial"
                         onBlur={(e) => setSalary(Number(e.target.value))}
                     />
-                    {/* <input
-                        placeholder="70000"
-                        type="number"
-                        onBlur={(e) => setSalary(Number(e.target.value))}
-                    ></input> */}
                     <br />
                     <FormControl
+                        id="province"
                         label="Province"
                         type="select"
                         selectedItem="Quebec"
@@ -100,51 +100,29 @@ function App() {
                             'Saskatchewan',
                             'Yukon Territories',
                         ]}
+                        onChange={(selectedItem) =>
+                            setProvince(ProvinceMapper(selectedItem))
+                        }
                     />
-                    {/* <select
-                        name="provinces"
-                        onChange={(e) => setProvince(e.target.value)}
-                    >
-                        <option value="AB">Alberta</option>
-                        <option value="BC">British Columbia</option>
-                        <option value="MB">Manitoba</option>
-                        <option value="NB">New Brunswick</option>
-                        <option value="NL">Newfoundland and Labrador</option>
-                        <option value="NT">Northwest Territories</option>
-                        <option value="NS">Nova Scotia</option>
-                        <option value="NU">Nunavut</option>
-                        <option value="ON">Ontario</option>
-                        <option value="PE">Audi</option>
-                        <option value="QC">Quebec</option>
-                        <option value="SK">Saskatchewan</option>
-                        <option value="YT">Yukon Territories</option>
-                    </select> */}
                     <br />
                     <FormControl
+                        id="down-payment"
                         label="Down Payment"
                         type="fincancial"
                         placeholder="0.0"
                         onBlur={(e) => setDownPayment(Number(e.target.value))}
                     />
-                    {/* <input
-                        placeholder="0"
-                        type="number"
-                        onBlur={(e) => setDownPayment(Number(e.target.value))}
-                    ></input> */}
                     <br />
                     <FormControl
+                        id="home-cost"
                         label="Home Price"
                         type="fincancial"
-                        placeholder="450000"
+                        placeholder={houseBudget.toString()}
                         onBlur={(e) => setHouseBudget(Number(e.target.value))}
                     />
-                    {/* <input
-                        placeholder="450000"
-                        type="number"
-                        onBlur={(e) => setHouseBudget(Number(e.target.value))}
-                    ></input> */}
                     <br />
                     <FormControl
+                        id="expenses"
                         label="Monthly Expenses"
                         type="fincancial"
                         placeholder="0.0"
@@ -152,25 +130,32 @@ function App() {
                             setMonthlyExpenses(Number(e.target.value))
                         }
                     />
-                    {/* <input
-                        placeholder="0"
-                        type="number"
-                        onBlur={(e) =>
-                            setMonthlyExpenses(Number(e.target.value))
-                        }
-                    ></input> */}
+                    <br />
+                    <FormControl
+                        id="amortization"
+                        label="Amortization Period"
+                        placeholder={amortization.toString() + ' years'}
+                        onBlur={(e) => setAmortization(Number(e.target.value))}
+                    />
+                    <br />
+                    <FormControl
+                        id="interest"
+                        label="Interest Rate"
+                        placeholder={interest.toString() + '%'}
+                        onBlur={(e) => setInterest(Number(e.target.value))}
+                    />
                 </div>
                 <div className="right-side">
                     {netIncome.monthly > 0 && (
                         <label>
-                            Your monthly net income is: {netIncome.monthly}
+                            Your monthly net income is: {netIncome.monthly}$
                         </label>
                     )}
                     <br />
                     {netIncome.monthly > 0 && (
                         <label>
                             Your monthly savings are:{' '}
-                            {netIncome.monthly - monthlyExpenses}
+                            {netIncome.monthly - monthlyExpenses}$
                         </label>
                     )}
                     <br />
@@ -190,7 +175,13 @@ function App() {
                     <br />
                     {netIncome.monthly > 0 && (
                         <label>
-                            Your monthly mortgage payments are: {'TBD'}
+                            Your monthly mortgage payments are:{' '}
+                            {getMortgagePayment(
+                                principal,
+                                amortization,
+                                interest
+                            )}
+                            $
                         </label>
                     )}
                 </div>
