@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.scss';
 import './tailwind.css';
-import FormControl from '../src/components/FromControl/FormControl';
-import { ProvinceMapper } from '../src/utils/provinceTool';
-import { getMortgagePayment } from '../src/utils/mortgageTool';
+import Navbar from './components/Navbar/Navbar';
+import FormControl from './components/FromControl/FormControl';
+import { ProvinceMapper } from './utils/provinceTool';
+import { getMortgagePayment } from './utils/mortgageTool';
 
 function App() {
     const [salary, setSalary] = React.useState(70000);
@@ -68,7 +69,7 @@ function App() {
 
     return (
         <div className="App">
-            <h1 className="title">Housing Strategy</h1>
+            <Navbar></Navbar>
             <header className="App-header">
                 <div className="left-side">
                     <br />
