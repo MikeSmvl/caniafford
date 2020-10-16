@@ -67,7 +67,7 @@ const FormControl = (props: IFromControlProps) => {
                 ) : type === 'select' ? (
                     <>
                         <span
-                            className="inline-block w-full rounded-md shadow-sm"
+                            className="inline-block w-full rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300"
                             tabIndex={0}
                         >
                             <button
