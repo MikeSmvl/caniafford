@@ -1,12 +1,11 @@
 import React from 'react';
 import './FormControl.scss';
 
-interface IFromControlProps {
+interface IFormControlProps {
     disabled?: boolean;
     type?: 'fincancial' | 'select';
     selectMenu?: any;
     placeholder?: string;
-    lebel?: string;
     id?: string;
     selectedItem?: string;
     label?: string;
@@ -14,7 +13,7 @@ interface IFromControlProps {
     onChange?: (event: any) => void;
 }
 
-const FormControl = (props: IFromControlProps) => {
+const FormControl = (props: IFormControlProps) => {
     const {
         disabled = false,
         type,
@@ -33,6 +32,20 @@ const FormControl = (props: IFromControlProps) => {
     React.useEffect(() => {
         selectedVal && setSelectedVal(selectedVal);
     }, [selectedVal]);
+
+    const ref = React.useRef<HTMLDivElement>(null);
+    const handleClickOutside = (event: Event) => {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
+            setOpenDropdown(false);
+        }
+    };
+
+    React.useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    });
 
     return (
         <div style={{ width: '320px' }} className="w-full max-w-xs mx-auto">
@@ -114,21 +127,28 @@ const FormControl = (props: IFromControlProps) => {
                                 aria-activedescendant="listbox-item-3"
                                 className="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5"
                             >
-                                {selectMenu.map((item: string, idx: number) => (
-                                    <SelectMenu
-                                        menuItem={item}
-                                        isSelected={item === selectedVal}
-                                        key={idx}
-                                        onSelectHandler={(
-                                            updatedItem: string
-                                        ) => {
-                                            setSelectedVal(updatedItem);
-                                            setOpenDropdown(false);
-                                            onChange && onChange(updatedItem);
-                                        }}
-                                        {...rest}
-                                    />
-                                ))}
+                                <div ref={ref}>
+                                    {selectMenu.map(
+                                        (item: string, idx: number) => (
+                                            <SelectMenu
+                                                menuItem={item}
+                                                isSelected={
+                                                    item === selectedVal
+                                                }
+                                                key={idx}
+                                                onSelectHandler={(
+                                                    updatedItem: string
+                                                ) => {
+                                                    setSelectedVal(updatedItem);
+                                                    setOpenDropdown(false);
+                                                    onChange &&
+                                                        onChange(updatedItem);
+                                                }}
+                                                {...rest}
+                                            />
+                                        )
+                                    )}
+                                </div>
                             </ul>
                         </div>
                     </>
