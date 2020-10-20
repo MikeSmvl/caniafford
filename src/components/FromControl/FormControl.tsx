@@ -34,6 +34,21 @@ const FormControl = (props: IFromControlProps) => {
         selectedVal && setSelectedVal(selectedVal);
     }, [selectedVal]);
 
+    const ref = React.useRef<HTMLDivElement>(null);
+    const handleClickOutside = (event: Event) => {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
+            setOpenDropdown(false);
+        }
+    };
+
+    React.useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    });
+
+
     return (
         <div style={{ width: '320px' }} className="w-full max-w-xs mx-auto">
             <label className="block text-sm font-medium leading-5 text-gray-700">
@@ -114,6 +129,7 @@ const FormControl = (props: IFromControlProps) => {
                                 aria-activedescendant="listbox-item-3"
                                 className="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5"
                             >
+                                <div ref={ref}>
                                 {selectMenu.map((item: string, idx: number) => (
                                     <SelectMenu
                                         menuItem={item}
@@ -129,6 +145,7 @@ const FormControl = (props: IFromControlProps) => {
                                         {...rest}
                                     />
                                 ))}
+                                </div>
                             </ul>
                         </div>
                     </>

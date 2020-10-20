@@ -11,12 +11,12 @@ const Navbar = () => {
                             <img
                                 className="block lg:hidden h-8 w-auto"
                                 src={require('./mobile-logo.svg')}
-                                alt="Housing Strategy logo"
+                                alt="Can I Afford logo"
                             />
                             <img
                                 className="hidden lg:block h-8 w-auto"
                                 src={require('./logo.svg')}
-                                alt="Housing Strategy logo"
+                                alt="Can I Afford logo"
                             />
                         </div>
                         <div className="hidden sm:ml-6 sm:flex">
@@ -45,9 +45,9 @@ const Navbar = () => {
                                 stroke="currentColor"
                             >
                                 <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
                                     d="M4 6h16M4 12h16M4 18h16"
                                 />
                             </svg>
@@ -59,9 +59,9 @@ const Navbar = () => {
                                 stroke="currentColor"
                             >
                                 <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
                                     d="M6 18L18 6M6 6l12 12"
                                 />
                             </svg>
