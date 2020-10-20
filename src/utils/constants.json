@@ -1,0 +1,10 @@
+{
+    "home": {
+        "salary": 140000,
+        "downpayment": 60000,
+        "houseBudget": 575000,
+        "expenses": 3400,
+        "amortization": 25,
+        "interest": 2
+    }
+}
