@@ -1,5 +1,6 @@
 import React from 'react';
 import './Navbar.scss';
+import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     return (
@@ -8,27 +9,36 @@ const Navbar = () => {
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         <div className="flex-shrink-0 flex items-center">
-                            <img
-                                className="block lg:hidden h-8 w-auto"
-                                src={require('./mobile-logo.svg')}
-                                alt="Can I Afford logo"
-                            />
-                            <img
-                                className="hidden lg:block h-8 w-auto"
-                                src={require('./logo.svg')}
-                                alt="Can I Afford logo"
-                            />
+                            <Link to="/">
+                                <img
+                                    className="block lg:hidden h-8 w-auto"
+                                    src={require('./mobile-logo.svg')}
+                                    alt="Can I Afford logo"
+                                />
+                                <img
+                                    className="hidden lg:block h-8 w-auto"
+                                    src={require('./logo.svg')}
+                                    alt="Can I Afford logo"
+                                />
+                            </Link>
                         </div>
                         <div className="hidden sm:ml-6 sm:flex">
-                            <a
-                                href="/"
-                                className="inline-flex items-center px-1 pt-1 border-b-2 border-teal-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-teal-700 transition duration-150 ease-in-out"
+                            <NavLink
+                                exact
+                                activeClassName="border-teal-500"
+                                to="/"
+                                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out"
                             >
                                 Home
-                            </a>
-                            <button className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 opacity-50 cursor-not-allowed">
+                            </NavLink>
+                            <NavLink
+                                exact
+                                activeClassName="border-teal-500"
+                                to="/blog"
+                                className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out"
+                            >
                                 Blog
-                            </button>
+                            </NavLink>
                         </div>
                     </div>
                     <div className="-mr-2 flex items-center sm:hidden">
