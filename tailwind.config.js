@@ -3,7 +3,7 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
     purge: {
-        enabled: true,
+        enabled: process.env.TAILWIND === 'prod' ? true : false,
         content: ['./src/**/*.html', './src/**/*.tsx'],
     },
     theme: {

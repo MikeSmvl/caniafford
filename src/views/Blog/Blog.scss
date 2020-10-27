@@ -1,6 +1,11 @@
 #Blog {
-    min-height: 100vh;
+    text-align: center;
     display: grid;
     align-items: center;
     justify-content: center;
+}
+
+#Blog-Articles {
+    text-align: left;
+    margin-top: 50px;
 }

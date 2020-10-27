@@ -83,10 +83,14 @@ function Home() {
     };
 
     return (
-        <div className="App">
-            <header className="App-header">
+        <div className="Home space-y-8">
+            <div className="pb-5 border-b border-black-200 py-12">
+                <h3 className="text-3xl leading-6 font-medium text-gray-900">
+                    Home Calculator
+                </h3>
+            </div>
+            <header className="Home-header">
                 <div className="left-side">
-                    <br />
                     <FormControl
                         id="income"
                         label="Gross Yearly Household Income"

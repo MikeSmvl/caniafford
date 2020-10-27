@@ -20,9 +20,9 @@
         "typescript": "~3.7.2"
     },
     "scripts": {
-        "prestart": "npx tailwindcss build -o src/tailwind.css",
+        "prestart": "TAILWIND=dev npx tailwindcss build -o src/tailwind.css",
         "start": "react-scripts start",
-        "prebuild": "npx tailwindcss build -o src/tailwind.css",
+        "prebuild": "TAILWIND=prod npx tailwindcss build -o src/tailwind.css",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"

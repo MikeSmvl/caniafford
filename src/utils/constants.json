@@ -6,5 +6,12 @@
         "expenses": 3400,
         "amortization": 25,
         "interest": 2
+    },
+    "blog": {
+        "url": "https://housingstrategy.firebaseio.com/home/blog/metadata.json?",
+        "params": {
+            "limitToLast": "5",
+            "orderBy": "\"blogNumber\""
+        }
     }
 }

@@ -1,31 +1,29 @@
-.App {
+.Home {
     text-align: center;
+    display: grid;
+    justify-content: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
+    .Home-logo {
+        animation: Home-logo-spin infinite 20s linear;
     }
 }
 
-.App-header {
-    background-color: #dee7e5;
-    min-height: 100vh;
+.Home-header {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    align-items: center;
-    justify-content: center;
     color: grey;
     .right-side {
         // font-size: 1.5vw;
     }
 }
 
-.App-link {
+.Home-link {
     color: #7e4e64;
 }
 
-@keyframes App-logo-spin {
+@keyframes Home-logo-spin {
     from {
         transform: rotate(0deg);
     }
