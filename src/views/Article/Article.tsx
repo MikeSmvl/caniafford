@@ -30,9 +30,9 @@ const Article = () => {
             }
         };
         getData().then((data) => {
-            if (!data) {
-                history.push('/404');
-            }
+            // if (!data) {
+            //     history.push('/404');
+            // }
             setMarkdown(data);
         });
     }, [article, history]);
@@ -42,6 +42,7 @@ const Article = () => {
             {markdown && markdown.md && (
                 <Markdown
                     id="Markdown"
+                    className="space-y-6"
                     children={markdown.md}
                     options={{
                         overrides: {
