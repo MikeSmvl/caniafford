@@ -1,7 +1,7 @@
 import React from 'react';
 import './Blog.scss';
 import * as constants from 'utils/constants.json';
-import Article from 'components/Article/Article';
+import ArticleMetadata from 'components/ArticleMetadata/ArticleMetadata';
 
 const createQueryParams = (params: any) => {
     return Object.keys(params)
@@ -9,9 +9,14 @@ const createQueryParams = (params: any) => {
         .join('&');
 };
 
-function Blog() {
-    const [articles, setArticles] = React.useState([]);
+interface Article {
+    title?: string;
+    author?: string;
+    date?: string;
+}
 
+const Blog = () => {
+    const [articles, setArticles] = React.useState([]);
     React.useEffect(() => {
         const getData = async () => {
             const response = await fetch(
@@ -22,6 +27,16 @@ function Blog() {
         getData().then((data) => {
             let arrayData: any = Object.keys(data).map((key) => {
                 return data[key];
+            });
+            arrayData.sort(function (a: Article, b: Article) {
+                // Turn your strings into dates, and then subtract them
+                // to get a value that is either negative, positive, or zero.
+                if (typeof a.date == 'string' && typeof b.date == 'string') {
+                    return (
+                        new Date(b.date).getTime() - new Date(a.date).getTime()
+                    );
+                }
+                return null;
             });
             setArticles(arrayData);
         });
@@ -37,14 +52,14 @@ function Blog() {
             <div id="Blog-Articles" className="space-y-6">
                 {articles.length > 0 &&
                     articles.map((article: any) => (
-                        <Article
-                            key={article.constructor.name}
+                        <ArticleMetadata
+                            key={article.title}
                             article={article}
                         />
                     ))}
             </div>
         </div>
     );
-}
+};
 
 export default Blog;

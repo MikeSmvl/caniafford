@@ -7,7 +7,7 @@ import { ProvinceMapper } from 'utils/provinceTool';
 import { getMortgagePayment } from 'utils/mortgageTool';
 import * as constants from 'utils/constants.json';
 
-function Home() {
+const Home = () => {
     const [salary, setSalary] = React.useState(constants.home.salary);
     // eslint-disable-next-line
     const [province, setProvince] = React.useState('AB');
@@ -243,6 +243,6 @@ function Home() {
             </header>
         </div>
     );
-}
+};
 
 export default Home;
