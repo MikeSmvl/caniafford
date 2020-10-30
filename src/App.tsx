@@ -10,14 +10,12 @@ import Navbar from 'components/Navbar/Navbar';
 import Home from 'views/Home/Home';
 import Blog from 'views/Blog/Blog';
 import NotFound from 'views/NotFound/NotFound';
-import Intro from 'components/Intro/Introduction';
 import Article from 'views/Article/Article';
 
 export default function App() {
 	return (
 		<Router>
 			<div id="App">
-				<Intro />
 				<Navbar />
 				<div id="Switch">
 					<Switch>

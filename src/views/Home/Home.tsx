@@ -6,6 +6,7 @@ import Stats from 'components/Stats/Stats';
 import { ProvinceMapper } from 'utils/provinceTool';
 import { getMortgagePayment } from 'utils/mortgageTool';
 import * as constants from 'utils/constants.json';
+import Intro from '../../components/Intro/Introduction';
 
 const Home = () => {
 	const [salary, setSalary] = React.useState(constants.home.salary);
@@ -83,6 +84,8 @@ const Home = () => {
 	};
 
 	return (
+		<>
+		<Intro />
 		<div className="Home space-y-8">
 			<div className="pb-5 border-b border-black-200 py-12">
 				<h3 className="text-3xl leading-6 font-medium text-gray-900">
@@ -231,6 +234,7 @@ const Home = () => {
 				)}
 			</header>
 		</div>
+		</>
 	);
 };
 
