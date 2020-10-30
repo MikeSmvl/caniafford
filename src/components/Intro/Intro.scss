@@ -32,6 +32,9 @@
 	}
 	100% {
 		opacity: 0;
+		overflow: hidden;
+    display: none;
+    visibility: hidden;
 	}
 }
 @keyframes fade-out {
@@ -40,6 +43,9 @@
 	}
 	100% {
 		opacity: 0;
+		overflow: hidden;
+    display: none;
+    visibility: hidden;
 	}
 }
 
