@@ -1,34 +1,34 @@
 .Home {
-    margin-top: 64px;
-    text-align: center;
-    display: grid;
-    justify-content: center;
+	margin-top: 64px;
+	text-align: center;
+	display: grid;
+	justify-content: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    .Home-logo {
-        animation: Home-logo-spin infinite 20s linear;
-    }
+	.Home-logo {
+		animation: Home-logo-spin infinite 20s linear;
+	}
 }
 
 .Home-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    color: grey;
-    .right-side {
-        // font-size: 1.5vw;
-    }
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	color: grey;
+	.right-side {
+		// font-size: 1.5vw;
+	}
 }
 
 .Home-link {
-    color: #7e4e64;
+	color: #7e4e64;
 }
 
 @keyframes Home-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }

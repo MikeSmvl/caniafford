@@ -1,11 +1,15 @@
 .svg-icon {
-    width: 1em;
-    height: 1em;
-    margin-right: 3px;
+	width: 1em;
+	height: 1em;
+	margin-right: 3px;
 }
 
 .svg-icon path,
 .svg-icon polygon,
 .svg-icon rect {
-    fill: currentColor;
+	fill: currentColor;
+}
+
+.lazy-load-image-background {
+	background-color: #e0e7e5 !important;
 }
