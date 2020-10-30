@@ -23,7 +23,7 @@ const ArticleMetadata = (props: IArticleMetadataProps) => {
 	};
 
 	return (
-		<div className="bg-white shadow overflow-hidden sm:rounded-md">
+		<div className="bg-white shadow overflow-hidden rounded-md">
 			<ul>
 				<li>
 					{article && (
@@ -46,10 +46,10 @@ const ArticleMetadata = (props: IArticleMetadataProps) => {
 									</div>
 									<div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
 										<div>
-											<div className="text-xl leading-5 font-medium text-gray-900 truncate">
+											<div className="text-xs md:text-base lg:text-lg xl:text-xl leading-5 font-medium text-gray-900 truncate">
 												{article.title}
 											</div>
-											<div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+											<div className="mt-2 flex items-center text-xs sm:text-sm leading-5 text-gray-500">
 												<svg className="svg-icon" viewBox="0 0 20 20">
 													<path
 														fill="none"

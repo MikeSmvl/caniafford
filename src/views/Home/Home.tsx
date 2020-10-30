@@ -85,155 +85,160 @@ const Home = () => {
 
 	return (
 		<>
-		<Intro />
-		<div className="Home space-y-8">
-			<div className="pb-5 border-b border-black-200 py-12">
-				<h3 className="text-3xl leading-6 font-medium text-gray-900">
-					Home Calculator
-				</h3>
-			</div>
-			<header className="Home-header">
-				<div className="left-side">
-					<FormControl
-						id="income"
-						label="Gross Yearly Household Income"
-						placeholder={numberWithCommas(constants.home.salary)}
-						type="fincancial"
-						onBlur={(e) =>
-							setSalary(
-								e.target.value ? Number(e.target.value) : constants.home.salary
-							)
-						}
-					/>
-					<br />
-					<FormControl
-						id="province"
-						label="Province"
-						type="select"
-						selectedItem="British Columbia"
-						selectMenu={[
-							'Alberta',
-							'British Columbia',
-							'Manitoba',
-							'New Brunswick',
-							'Newfoundland and Labrador',
-							'Nova Scotia',
-							'Nunavut',
-							'Ontario',
-							'Prince Edward Island',
-							'Quebec',
-							'Saskatchewan',
-							'Yukon Territories',
-						]}
-						onChange={(selectedItem) =>
-							setProvince(ProvinceMapper(selectedItem))
-						}
-					/>
-					<br />
-					<FormControl
-						id="down-payment"
-						label="Down Payment"
-						type="fincancial"
-						placeholder={numberWithCommas(constants.home.downpayment)}
-						onBlur={(e) =>
-							setDownPayment(
-								e.target.value
-									? Number(e.target.value)
-									: constants.home.downpayment
-							)
-						}
-					/>
-					<br />
-					<FormControl
-						id="home-cost"
-						label="Home Price"
-						type="fincancial"
-						placeholder={numberWithCommas(constants.home.houseBudget)}
-						onBlur={(e) =>
-							setHouseBudget(
-								e.target.value
-									? Number(e.target.value)
-									: constants.home.houseBudget
-							)
-						}
-					/>
-					<br />
-					<FormControl
-						id="expenses"
-						label="Monthly Expenses"
-						type="fincancial"
-						placeholder={numberWithCommas(constants.home.expenses)}
-						onBlur={(e) =>
-							setMonthlyExpenses(
-								e.target.value
-									? Number(e.target.value)
-									: constants.home.expenses
-							)
-						}
-					/>
-					<br />
-					<FormControl
-						id="amortization"
-						label="Amortization Period"
-						placeholder={
-							numberWithCommas(constants.home.amortization) + ' years'
-						}
-						onBlur={(e) =>
-							setAmortization(
-								e.target.value
-									? Number(e.target.value)
-									: constants.home.amortization
-							)
-						}
-					/>
-					<br />
-					<FormControl
-						id="interest"
-						label="Interest Rate"
-						placeholder={numberWithCommas(constants.home.interest) + '%'}
-						onBlur={(e) =>
-							setInterest(
-								e.target.value
-									? Number(e.target.value)
-									: constants.home.interest
-							)
-						}
-					/>
+			<Intro />
+			<div className="Home space-y-8">
+				<div className="pb-5 border-b border-black-200 py-12">
+					<h3 className="text-3xl leading-6 font-medium text-gray-900">
+						Home Calculator
+					</h3>
 				</div>
-				{netIncome.monthly > 0 && (
-					<div className="right-side">
-						<Stats
-							label="Monthly Net Income"
-							data={numberWithCommas(netIncome.monthly) + '$'}
-						></Stats>
-						<Stats
-							label="Monthly Mortgage Payments"
-							data={numberWithCommas(mortgage) + '$'}
-						></Stats>
-						<Stats
-							label="Monthly Savings"
-							data={
-								numberWithCommas(
-									netIncome.monthly - monthlyExpenses - mortgage
-								) + '$'
+				<header className="Home-header grid grid-cols-1 md:grid-cols-2 md:gap-x-16 xl:gap-x-64 gap-y-8">
+					<div className="left-side col-span-1">
+						<FormControl
+							id="income"
+							label="Gross Yearly Household Income"
+							placeholder={numberWithCommas(constants.home.salary)}
+							type="fincancial"
+							onBlur={(e) =>
+								setSalary(
+									e.target.value
+										? Number(e.target.value)
+										: constants.home.salary
+								)
 							}
-						></Stats>
-						<Stats
-							label="Time needed for 20%"
-							data={
-								calculateDownpaymentTime(
-									downpayment,
-									houseBudget,
-									20,
-									netIncome.monthly,
-									monthlyExpenses
-								).toString() + ' months'
+						/>
+						<br />
+						<FormControl
+							id="province"
+							label="Province"
+							type="select"
+							selectedItem="British Columbia"
+							selectMenu={[
+								'Alberta',
+								'British Columbia',
+								'Manitoba',
+								'New Brunswick',
+								'Newfoundland and Labrador',
+								'Nova Scotia',
+								'Nunavut',
+								'Ontario',
+								'Prince Edward Island',
+								'Quebec',
+								'Saskatchewan',
+								'Yukon Territories',
+							]}
+							onChange={(selectedItem) =>
+								setProvince(ProvinceMapper(selectedItem))
 							}
-						></Stats>
+						/>
+						<br />
+						<FormControl
+							id="down-payment"
+							label="Down Payment"
+							type="fincancial"
+							placeholder={numberWithCommas(constants.home.downpayment)}
+							onBlur={(e) =>
+								setDownPayment(
+									e.target.value
+										? Number(e.target.value)
+										: constants.home.downpayment
+								)
+							}
+						/>
+						<br />
+						<FormControl
+							id="home-cost"
+							label="Home Price"
+							type="fincancial"
+							placeholder={numberWithCommas(constants.home.houseBudget)}
+							onBlur={(e) =>
+								setHouseBudget(
+									e.target.value
+										? Number(e.target.value)
+										: constants.home.houseBudget
+								)
+							}
+						/>
+						<br />
+						<FormControl
+							id="expenses"
+							label="Monthly Expenses"
+							type="fincancial"
+							placeholder={numberWithCommas(constants.home.expenses)}
+							onBlur={(e) =>
+								setMonthlyExpenses(
+									e.target.value
+										? Number(e.target.value)
+										: constants.home.expenses
+								)
+							}
+						/>
+						<br />
+						<FormControl
+							id="amortization"
+							label="Amortization Period"
+							placeholder={
+								numberWithCommas(constants.home.amortization) + ' years'
+							}
+							onBlur={(e) =>
+								setAmortization(
+									e.target.value
+										? Number(e.target.value)
+										: constants.home.amortization
+								)
+							}
+						/>
+						<br />
+						<FormControl
+							id="interest"
+							label="Interest Rate"
+							placeholder={numberWithCommas(constants.home.interest) + '%'}
+							onBlur={(e) =>
+								setInterest(
+									e.target.value
+										? Number(e.target.value)
+										: constants.home.interest
+								)
+							}
+						/>
 					</div>
-				)}
-			</header>
-		</div>
+					{netIncome.monthly > 0 && (
+						<div className="right-side col-span-1">
+							<Stats
+								label="Monthly Net Income"
+								data={numberWithCommas(netIncome.monthly) + '$'}
+								color="blue"
+							></Stats>
+							<Stats
+								label="Monthly Mortgage Payments"
+								data={numberWithCommas(mortgage) + '$'}
+								color="red"
+							></Stats>
+							<Stats
+								label="Monthly Savings"
+								data={
+									numberWithCommas(
+										netIncome.monthly - monthlyExpenses - mortgage
+									) + '$'
+								}
+								color="green"
+							></Stats>
+							<Stats
+								label="Time needed for 20%"
+								data={
+									calculateDownpaymentTime(
+										downpayment,
+										houseBudget,
+										20,
+										netIncome.monthly,
+										monthlyExpenses
+									).toString() + ' months'
+								}
+							></Stats>
+						</div>
+					)}
+				</header>
+			</div>
 		</>
 	);
 };

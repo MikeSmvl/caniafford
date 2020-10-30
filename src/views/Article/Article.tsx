@@ -33,9 +33,9 @@ const Article = () => {
 	}, [article, history]);
 
 	return (
-		<div id="Article">
+		<div id="Article" className="grid grid-cols-6 md:grid-cols-4">
 			{markdown && markdown.md && (
-				<div id="Markdown">
+				<div id="Markdown" className="col-span-6 md:col-start-2 md:col-span-2">
 					<h1 id="Title">{decodeURIComponent(article)}</h1>
 					<Markdown
 						className="space-y-8"
