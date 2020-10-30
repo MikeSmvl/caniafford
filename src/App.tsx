@@ -16,17 +16,17 @@ import Article from 'views/Article/Article';
 export default function App() {
 	return (
 		<Router>
-			<div id='App'>
+			<div id="App">
 				<Intro />
 				<Navbar />
-				<div id='Switch'>
+				<div id="Switch">
 					<Switch>
-						<Route exact path='/blog/:article' component={Article} />
-						<Route exact path='/blog' component={Blog} />
-						<Route exact path='/' component={Home} />
-						<Route exact path='/404' component={NotFound} />
+						<Route exact path="/blog/:article" component={Article} />
+						<Route exact path="/blog" component={Blog} />
+						<Route exact path="/" component={Home} />
+						<Route exact path="/404" component={NotFound} />
 						<Route>
-							<Redirect to='/404' />
+							<Redirect to="/404" />
 						</Route>
 					</Switch>
 				</div>
