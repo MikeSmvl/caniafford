@@ -3,11 +3,6 @@ import { useParams, useHistory } from 'react-router-dom';
 import Markdown from 'markdown-to-jsx';
 import './Article.scss';
 
-const H2 = ({ children, ...props }: any) => {
-    // console.log(children);
-    return <h1>{children[0]}</h1>;
-};
-
 interface ParamTypes {
     article: string;
 }
@@ -30,9 +25,9 @@ const Article = () => {
             }
         };
         getData().then((data) => {
-            // if (!data) {
-            //     history.push('/404');
-            // }
+            if (!data) {
+                history.push('/404');
+            }
             setMarkdown(data);
         });
     }, [article, history]);
@@ -40,21 +35,27 @@ const Article = () => {
     return (
         <div id="Article">
             {markdown && markdown.md && (
-                <Markdown
-                    id="Markdown"
-                    className="space-y-6"
-                    children={markdown.md}
-                    options={{
-                        overrides: {
-                            h2: {
-                                component: H2,
-                                props: {
-                                    className: 'foo',
+                <div id="Markdown">
+                    <h1 id="Title">{decodeURIComponent(article)}</h1>
+                    <Markdown
+                        className="space-y-8"
+                        children={markdown.md}
+                        options={{
+                            overrides: {
+                                h2: {
+                                    props: {
+                                        className: 'sub-title',
+                                    },
+                                },
+                                a: {
+                                    props: {
+                                        className: 'blog-post-anchor',
+                                    },
                                 },
                             },
-                        },
-                    }}
-                />
+                        }}
+                    />
+                </div>
             )}
         </div>
     );
