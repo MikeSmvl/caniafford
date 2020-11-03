@@ -267,958 +267,916 @@ var YTNonEligibleDivCredit = 0.023;
 var YTTaxCreditRate = 0.064;
 
 function calculateCPP(employmentIncome) {
-    //CPP
-    CPPTax = Math.max(
-        Math.min(
-            (employmentIncome - CPPExemption) * CPPContributionRate,
-            CPPMaxContribution
-        ),
-        0
-    );
-    enhancedCPPTax = (enhancedCPPRate / CPPContributionRate) * CPPTax;
-    baseCPPTax = CPPTax - enhancedCPPTax;
-    return baseCPPTax;
+	//CPP
+	CPPTax = Math.max(
+		Math.min(
+			(employmentIncome - CPPExemption) * CPPContributionRate,
+			CPPMaxContribution
+		),
+		0
+	);
+	enhancedCPPTax = (enhancedCPPRate / CPPContributionRate) * CPPTax;
+	baseCPPTax = CPPTax - enhancedCPPTax;
+	return baseCPPTax;
 }
 
 function calculateQPP(employmentIncome) {
-    //QPP
-    QPPTax = Math.max(
-        Math.min(
-            (employmentIncome - QPPExemption) * QPPContributionRate,
-            QPPMaxContribution
-        ),
-        0
-    );
-    enhancedQPPTax = (enhancedQPPRate / QPPContributionRate) * QPPTax;
-    baseQPPTax = QPPTax - enhancedQPPTax;
-    return baseQPPTax;
+	//QPP
+	QPPTax = Math.max(
+		Math.min(
+			(employmentIncome - QPPExemption) * QPPContributionRate,
+			QPPMaxContribution
+		),
+		0
+	);
+	enhancedQPPTax = (enhancedQPPRate / QPPContributionRate) * QPPTax;
+	baseQPPTax = QPPTax - enhancedQPPTax;
+	return baseQPPTax;
 }
 
 function calculateEI(employmentIncome, quebec = false) {
-    // EI (Quebec)
-    if (quebec) {
-        return (EITaxQC = Math.max(
-            Math.min(employmentIncome * EIQCRate, EIQCMax),
-            0
-        ));
-    }
+	// EI (Quebec)
+	if (quebec) {
+		return (EITaxQC = Math.max(
+			Math.min(employmentIncome * EIQCRate, EIQCMax),
+			0
+		));
+	}
 
-    // EI Rest of Canada
-    return (EITaxROC = Math.max(
-        Math.min(employmentIncome * EIROCRate, EIROCMax),
-        0
-    ));
+	// EI Rest of Canada
+	return (EITaxROC = Math.max(
+		Math.min(employmentIncome * EIROCRate, EIROCMax),
+		0
+	));
 }
 
 function calculateQPIP(employmentIncome) {
-    //QPIP
-    if (employmentIncome < QPIPExemption) {
-        return (QPIPTax = 0);
-    } else {
-        QPIPTax = Math.min(
-            QPIPMaxContribution,
-            employmentIncome * QPIPContributionRate
-        );
-        return QPIPTax;
-    }
+	//QPIP
+	if (employmentIncome < QPIPExemption) {
+		return (QPIPTax = 0);
+	} else {
+		QPIPTax = Math.min(
+			QPIPMaxContribution,
+			employmentIncome * QPIPContributionRate
+		);
+		return QPIPTax;
+	}
 }
 
 function calculateOHIP(totalTaxableIncome) {
-    //OHIP
-    if (totalTaxableIncome < 20000) {
-        OHIPContribution = 0;
-    } else if (totalTaxableIncome < 25000) {
-        OHIPContribution = (totalTaxableIncome - 20000) * 0.06;
-    } else if (totalTaxableIncome < 36000) {
-        OHIPContribution = 300;
-    } else if (totalTaxableIncome < 38500) {
-        OHIPContribution = 300 + (totalTaxableIncome - 36000) * 0.06;
-    } else if (totalTaxableIncome < 48000) {
-        OHIPContribution = 450;
-    } else if (totalTaxableIncome < 48600) {
-        OHIPContribution = 450 + (totalTaxableIncome - 48000) * 0.25;
-    } else if (totalTaxableIncome < 72000) {
-        OHIPContribution = 600;
-    } else if (totalTaxableIncome < 72600) {
-        OHIPContribution = 600 + (totalTaxableIncome - 72000) * 0.25;
-    } else if (totalTaxableIncome < 200000) {
-        OHIPContribution = 750;
-    } else if (totalTaxableIncome < 200600) {
-        OHIPContribution = 750 + (totalTaxableIncome - 200000) * 0.25;
-    } else {
-        OHIPContribution = 900;
-    }
-    return OHIPContribution;
+	//OHIP
+	if (totalTaxableIncome < 20000) {
+		OHIPContribution = 0;
+	} else if (totalTaxableIncome < 25000) {
+		OHIPContribution = (totalTaxableIncome - 20000) * 0.06;
+	} else if (totalTaxableIncome < 36000) {
+		OHIPContribution = 300;
+	} else if (totalTaxableIncome < 38500) {
+		OHIPContribution = 300 + (totalTaxableIncome - 36000) * 0.06;
+	} else if (totalTaxableIncome < 48000) {
+		OHIPContribution = 450;
+	} else if (totalTaxableIncome < 48600) {
+		OHIPContribution = 450 + (totalTaxableIncome - 48000) * 0.25;
+	} else if (totalTaxableIncome < 72000) {
+		OHIPContribution = 600;
+	} else if (totalTaxableIncome < 72600) {
+		OHIPContribution = 600 + (totalTaxableIncome - 72000) * 0.25;
+	} else if (totalTaxableIncome < 200000) {
+		OHIPContribution = 750;
+	} else if (totalTaxableIncome < 200600) {
+		OHIPContribution = 750 + (totalTaxableIncome - 200000) * 0.25;
+	} else {
+		OHIPContribution = 900;
+	}
+	return OHIPContribution;
 }
 
 function calculateFedTaxes(totalTaxableIncome, quebec = false) {
-    //Federal Rest of Canada
-    var fedBracket1Amount = 0;
-    var fedBracket2Amount = 0;
-    var fedBracket3Amount = 0;
-    var fedBracket4Amount = 0;
-    var fedBracket5Amount = 0;
+	//Federal Rest of Canada
+	var fedBracket1Amount = 0;
+	var fedBracket2Amount = 0;
+	var fedBracket3Amount = 0;
+	var fedBracket4Amount = 0;
+	var fedBracket5Amount = 0;
 
-    var fedBracket1Tax = 0;
-    var fedBracket2Tax = 0;
-    var fedBracket3Tax = 0;
-    var fedBracket4Tax = 0;
-    var fedBracket5Tax = 0;
+	var fedBracket1Tax = 0;
+	var fedBracket2Tax = 0;
+	var fedBracket3Tax = 0;
+	var fedBracket4Tax = 0;
+	var fedBracket5Tax = 0;
 
-    fedBracket1Amount = Math.min(
-        Math.max(0, totalTaxableIncome),
-        federalBracket1
-    );
-    fedBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), federalBracket2) -
-        fedBracket1Amount;
-    fedBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), federalBracket3) -
-        fedBracket1Amount -
-        fedBracket2Amount;
-    fedBracket4Amount =
-        Math.min(Math.max(0, totalTaxableIncome), federalBracket4) -
-        fedBracket1Amount -
-        fedBracket2Amount -
-        fedBracket3Amount;
-    fedBracket5Amount =
-        Math.max(0, totalTaxableIncome) -
-        fedBracket1Amount -
-        fedBracket2Amount -
-        fedBracket3Amount -
-        fedBracket4Amount;
+	fedBracket1Amount = Math.min(
+		Math.max(0, totalTaxableIncome),
+		federalBracket1
+	);
+	fedBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), federalBracket2) -
+		fedBracket1Amount;
+	fedBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), federalBracket3) -
+		fedBracket1Amount -
+		fedBracket2Amount;
+	fedBracket4Amount =
+		Math.min(Math.max(0, totalTaxableIncome), federalBracket4) -
+		fedBracket1Amount -
+		fedBracket2Amount -
+		fedBracket3Amount;
+	fedBracket5Amount =
+		Math.max(0, totalTaxableIncome) -
+		fedBracket1Amount -
+		fedBracket2Amount -
+		fedBracket3Amount -
+		fedBracket4Amount;
 
-    fedBracket1Tax = fedBracket1Amount * federalRate1;
-    fedBracket2Tax = fedBracket2Amount * federalRate2;
-    fedBracket3Tax = fedBracket3Amount * federalRate3;
-    fedBracket4Tax = fedBracket4Amount * federalRate4;
-    fedBracket5Tax = fedBracket5Amount * federalRate5;
+	fedBracket1Tax = fedBracket1Amount * federalRate1;
+	fedBracket2Tax = fedBracket2Amount * federalRate2;
+	fedBracket3Tax = fedBracket3Amount * federalRate3;
+	fedBracket4Tax = fedBracket4Amount * federalRate4;
+	fedBracket5Tax = fedBracket5Amount * federalRate5;
 
-    var fedTaxSubtotal =
-        fedBracket1Tax +
-        fedBracket2Tax +
-        fedBracket3Tax +
-        fedBracket4Tax +
-        fedBracket5Tax;
+	var fedTaxSubtotal =
+		fedBracket1Tax +
+		fedBracket2Tax +
+		fedBracket3Tax +
+		fedBracket4Tax +
+		fedBracket5Tax;
 
-    enhancedBPA =
-        maxEnhancedBPA -
-        maxEnhancedBPA *
-            Math.min(
-                1,
-                Math.max(
-                    0,
-                    (totalTaxableIncome - enhancedBPAThresholdStart) /
-                        (enhancedBPAThresholdEnd - enhancedBPAThresholdStart)
-                )
-            );
+	enhancedBPA =
+		maxEnhancedBPA -
+		maxEnhancedBPA *
+			Math.min(
+				1,
+				Math.max(
+					0,
+					(totalTaxableIncome - enhancedBPAThresholdStart) /
+						(enhancedBPAThresholdEnd - enhancedBPAThresholdStart)
+				)
+			);
 
-    totalFederalPersonalAmount = baseFederalPersonalAmount + enhancedBPA;
+	totalFederalPersonalAmount = baseFederalPersonalAmount + enhancedBPA;
 
-    // Federal (Quebec)
-    if (quebec) {
-        var fedTaxCreditsQC =
-            (totalFederalPersonalAmount +
-                calculateQPP(totalTaxableIncome) +
-                calculateQPIP(totalTaxableIncome) +
-                calculateEI(totalTaxableIncome, true) +
-                federalEmploymentAmount) *
-                federalTaxCreditRate +
-            eligibleDividends *
-                (1 + eligibleGrossUp) *
-                federalEligibleDivCredit +
-            nonEligibleDividends *
-                (1 + nonEligibleGrossUp) *
-                federalNonEligibleDivCredit;
+	// Federal (Quebec)
+	if (quebec) {
+		var fedTaxCreditsQC =
+			(totalFederalPersonalAmount +
+				calculateQPP(totalTaxableIncome) +
+				calculateQPIP(totalTaxableIncome) +
+				calculateEI(totalTaxableIncome, true) +
+				federalEmploymentAmount) *
+				federalTaxCreditRate +
+			eligibleDividends * (1 + eligibleGrossUp) * federalEligibleDivCredit +
+			nonEligibleDividends *
+				(1 + nonEligibleGrossUp) *
+				federalNonEligibleDivCredit;
 
-        federalTaxQC =
-            Math.max(fedTaxSubtotal - fedTaxCreditsQC, 0) *
-            (1 - QCAbatementRate);
+		federalTaxQC =
+			Math.max(fedTaxSubtotal - fedTaxCreditsQC, 0) * (1 - QCAbatementRate);
 
-        return federalTaxQC;
-    }
+		return federalTaxQC;
+	}
 
-    // Federal (Rest of Canada)
-    var fedTaxCredits =
-        (totalFederalPersonalAmount +
-            calculateCPP(totalTaxableIncome) +
-            calculateEI(totalTaxableIncome) +
-            federalEmploymentAmount) *
-            federalTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * federalEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            federalNonEligibleDivCredit;
+	// Federal (Rest of Canada)
+	var fedTaxCredits =
+		(totalFederalPersonalAmount +
+			calculateCPP(totalTaxableIncome) +
+			calculateEI(totalTaxableIncome) +
+			federalEmploymentAmount) *
+			federalTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * federalEligibleDivCredit +
+		nonEligibleDividends *
+			(1 + nonEligibleGrossUp) *
+			federalNonEligibleDivCredit;
 
-    federalTaxROC = Math.max(fedTaxSubtotal - fedTaxCredits, 0);
-    return federalTaxROC;
+	federalTaxROC = Math.max(fedTaxSubtotal - fedTaxCredits, 0);
+	return federalTaxROC;
 }
 
 function calculateAB(totalTaxableIncome) {
-    //AB Provincial
-    var ABTax = 0;
-    var ABBracket1Amount = 0;
-    var ABBracket2Amount = 0;
-    var ABBracket3Amount = 0;
-    var ABBracket4Amount = 0;
-    var ABBracket5Amount = 0;
+	//AB Provincial
+	var ABTax = 0;
+	var ABBracket1Amount = 0;
+	var ABBracket2Amount = 0;
+	var ABBracket3Amount = 0;
+	var ABBracket4Amount = 0;
+	var ABBracket5Amount = 0;
 
-    var ABBracket1Tax = 0;
-    var ABBracket2Tax = 0;
-    var ABBracket3Tax = 0;
-    var ABBracket4Tax = 0;
-    var ABBracket5Tax = 0;
+	var ABBracket1Tax = 0;
+	var ABBracket2Tax = 0;
+	var ABBracket3Tax = 0;
+	var ABBracket4Tax = 0;
+	var ABBracket5Tax = 0;
 
-    ABBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), ABBracket1);
-    ABBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), ABBracket2) -
-        ABBracket1Amount;
-    ABBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), ABBracket3) -
-        ABBracket1Amount -
-        ABBracket2Amount;
-    ABBracket4Amount =
-        Math.min(Math.max(0, totalTaxableIncome), ABBracket4) -
-        ABBracket1Amount -
-        ABBracket2Amount -
-        ABBracket3Amount;
-    ABBracket5Amount =
-        Math.max(0, totalTaxableIncome) -
-        ABBracket1Amount -
-        ABBracket2Amount -
-        ABBracket3Amount -
-        ABBracket4Amount;
+	ABBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), ABBracket1);
+	ABBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), ABBracket2) - ABBracket1Amount;
+	ABBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), ABBracket3) -
+		ABBracket1Amount -
+		ABBracket2Amount;
+	ABBracket4Amount =
+		Math.min(Math.max(0, totalTaxableIncome), ABBracket4) -
+		ABBracket1Amount -
+		ABBracket2Amount -
+		ABBracket3Amount;
+	ABBracket5Amount =
+		Math.max(0, totalTaxableIncome) -
+		ABBracket1Amount -
+		ABBracket2Amount -
+		ABBracket3Amount -
+		ABBracket4Amount;
 
-    ABBracket1Tax = ABBracket1Amount * ABRate1;
-    ABBracket2Tax = ABBracket2Amount * ABRate2;
-    ABBracket3Tax = ABBracket3Amount * ABRate3;
-    ABBracket4Tax = ABBracket4Amount * ABRate4;
-    ABBracket5Tax = ABBracket5Amount * ABRate5;
+	ABBracket1Tax = ABBracket1Amount * ABRate1;
+	ABBracket2Tax = ABBracket2Amount * ABRate2;
+	ABBracket3Tax = ABBracket3Amount * ABRate3;
+	ABBracket4Tax = ABBracket4Amount * ABRate4;
+	ABBracket5Tax = ABBracket5Amount * ABRate5;
 
-    var ABTaxSubtotal =
-        ABBracket1Tax +
-        ABBracket2Tax +
-        ABBracket3Tax +
-        ABBracket4Tax +
-        ABBracket5Tax;
+	var ABTaxSubtotal =
+		ABBracket1Tax +
+		ABBracket2Tax +
+		ABBracket3Tax +
+		ABBracket4Tax +
+		ABBracket5Tax;
 
-    var ABTaxCredits =
-        (ABPersonalAmount + baseCPPTax + EITaxROC) * ABTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * ABEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            ABNonEligibleDivCredit;
+	var ABTaxCredits =
+		(ABPersonalAmount + baseCPPTax + EITaxROC) * ABTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * ABEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * ABNonEligibleDivCredit;
 
-    ABTax = Math.max(ABTaxSubtotal - ABTaxCredits, 0);
-    return ABTax;
+	ABTax = Math.max(ABTaxSubtotal - ABTaxCredits, 0);
+	return ABTax;
 }
 
 function calculateBC(totalTaxableIncome) {
-    //BC Provincial
-    var BCTax = 0;
+	//BC Provincial
+	var BCTax = 0;
 
-    var BCBracket1Amount = 0;
-    var BCBracket2Amount = 0;
-    var BCBracket3Amount = 0;
-    var BCBracket4Amount = 0;
-    var BCBracket5Amount = 0;
-    var BCBracket6Amount = 0;
-    var BCBracket7Amount = 0;
+	var BCBracket1Amount = 0;
+	var BCBracket2Amount = 0;
+	var BCBracket3Amount = 0;
+	var BCBracket4Amount = 0;
+	var BCBracket5Amount = 0;
+	var BCBracket6Amount = 0;
+	var BCBracket7Amount = 0;
 
-    var BCBracket1Tax = 0;
-    var BCBracket2Tax = 0;
-    var BCBracket3Tax = 0;
-    var BCBracket4Tax = 0;
-    var BCBracket5Tax = 0;
-    var BCBracket6Tax = 0;
-    var BCBracket7Tax = 0;
+	var BCBracket1Tax = 0;
+	var BCBracket2Tax = 0;
+	var BCBracket3Tax = 0;
+	var BCBracket4Tax = 0;
+	var BCBracket5Tax = 0;
+	var BCBracket6Tax = 0;
+	var BCBracket7Tax = 0;
 
-    BCBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), BCBracket1);
-    BCBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), BCBracket2) -
-        BCBracket1Amount;
-    BCBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), BCBracket3) -
-        BCBracket1Amount -
-        BCBracket2Amount;
-    BCBracket4Amount =
-        Math.min(Math.max(0, totalTaxableIncome), BCBracket4) -
-        BCBracket1Amount -
-        BCBracket2Amount -
-        BCBracket3Amount;
-    BCBracket5Amount =
-        Math.min(Math.max(0, totalTaxableIncome), BCBracket5) -
-        BCBracket1Amount -
-        BCBracket2Amount -
-        BCBracket3Amount -
-        BCBracket4Amount;
-    BCBracket6Amount =
-        Math.min(Math.max(0, totalTaxableIncome), BCBracket6) -
-        BCBracket1Amount -
-        BCBracket2Amount -
-        BCBracket3Amount -
-        BCBracket4Amount -
-        BCBracket5Amount;
-    BCBracket7Amount =
-        Math.max(0, totalTaxableIncome) -
-        BCBracket1Amount -
-        BCBracket2Amount -
-        BCBracket3Amount -
-        BCBracket4Amount -
-        BCBracket5Amount -
-        BCBracket6Amount;
+	BCBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), BCBracket1);
+	BCBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), BCBracket2) - BCBracket1Amount;
+	BCBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), BCBracket3) -
+		BCBracket1Amount -
+		BCBracket2Amount;
+	BCBracket4Amount =
+		Math.min(Math.max(0, totalTaxableIncome), BCBracket4) -
+		BCBracket1Amount -
+		BCBracket2Amount -
+		BCBracket3Amount;
+	BCBracket5Amount =
+		Math.min(Math.max(0, totalTaxableIncome), BCBracket5) -
+		BCBracket1Amount -
+		BCBracket2Amount -
+		BCBracket3Amount -
+		BCBracket4Amount;
+	BCBracket6Amount =
+		Math.min(Math.max(0, totalTaxableIncome), BCBracket6) -
+		BCBracket1Amount -
+		BCBracket2Amount -
+		BCBracket3Amount -
+		BCBracket4Amount -
+		BCBracket5Amount;
+	BCBracket7Amount =
+		Math.max(0, totalTaxableIncome) -
+		BCBracket1Amount -
+		BCBracket2Amount -
+		BCBracket3Amount -
+		BCBracket4Amount -
+		BCBracket5Amount -
+		BCBracket6Amount;
 
-    BCBracket1Tax = BCBracket1Amount * BCRate1;
-    BCBracket2Tax = BCBracket2Amount * BCRate2;
-    BCBracket3Tax = BCBracket3Amount * BCRate3;
-    BCBracket4Tax = BCBracket4Amount * BCRate4;
-    BCBracket5Tax = BCBracket5Amount * BCRate5;
-    BCBracket6Tax = BCBracket6Amount * BCRate6;
-    BCBracket7Tax = BCBracket7Amount * BCRate7;
+	BCBracket1Tax = BCBracket1Amount * BCRate1;
+	BCBracket2Tax = BCBracket2Amount * BCRate2;
+	BCBracket3Tax = BCBracket3Amount * BCRate3;
+	BCBracket4Tax = BCBracket4Amount * BCRate4;
+	BCBracket5Tax = BCBracket5Amount * BCRate5;
+	BCBracket6Tax = BCBracket6Amount * BCRate6;
+	BCBracket7Tax = BCBracket7Amount * BCRate7;
 
-    var BCTaxSubtotal =
-        BCBracket1Tax +
-        BCBracket2Tax +
-        BCBracket3Tax +
-        BCBracket4Tax +
-        BCBracket5Tax +
-        BCBracket6Tax +
-        BCBracket7Tax;
+	var BCTaxSubtotal =
+		BCBracket1Tax +
+		BCBracket2Tax +
+		BCBracket3Tax +
+		BCBracket4Tax +
+		BCBracket5Tax +
+		BCBracket6Tax +
+		BCBracket7Tax;
 
-    var BCTaxCredits =
-        (BCPersonalAmount + baseCPPTax + EITaxROC) * BCTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * BCEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            BCNonEligibleDivCredit;
+	var BCTaxCredits =
+		(BCPersonalAmount + baseCPPTax + EITaxROC) * BCTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * BCEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * BCNonEligibleDivCredit;
 
-    BCTax = Math.max(BCTaxSubtotal - BCTaxCredits, 0);
-    return BCTax;
+	BCTax = Math.max(BCTaxSubtotal - BCTaxCredits, 0);
+	return BCTax;
 }
 
 function calculateMB(totalTaxableIncome) {
-    //MB Provincial
-    var MBTax = 0;
+	//MB Provincial
+	var MBTax = 0;
 
-    var MBBracket1Amount = 0;
-    var MBBracket2Amount = 0;
-    var MBBracket3Amount = 0;
+	var MBBracket1Amount = 0;
+	var MBBracket2Amount = 0;
+	var MBBracket3Amount = 0;
 
-    var MBBracket1Tax = 0;
-    var MBBracket2Tax = 0;
-    var MBBracket3Tax = 0;
+	var MBBracket1Tax = 0;
+	var MBBracket2Tax = 0;
+	var MBBracket3Tax = 0;
 
-    MBBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), MBBracket1);
-    MBBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), MBBracket2) -
-        MBBracket1Amount;
-    MBBracket3Amount =
-        Math.max(0, totalTaxableIncome) - MBBracket1Amount - MBBracket2Amount;
+	MBBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), MBBracket1);
+	MBBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), MBBracket2) - MBBracket1Amount;
+	MBBracket3Amount =
+		Math.max(0, totalTaxableIncome) - MBBracket1Amount - MBBracket2Amount;
 
-    MBBracket1Tax = MBBracket1Amount * MBRate1;
-    MBBracket2Tax = MBBracket2Amount * MBRate2;
-    MBBracket3Tax = MBBracket3Amount * MBRate3;
+	MBBracket1Tax = MBBracket1Amount * MBRate1;
+	MBBracket2Tax = MBBracket2Amount * MBRate2;
+	MBBracket3Tax = MBBracket3Amount * MBRate3;
 
-    var MBTaxSubtotal = MBBracket1Tax + MBBracket2Tax + MBBracket3Tax;
+	var MBTaxSubtotal = MBBracket1Tax + MBBracket2Tax + MBBracket3Tax;
 
-    var MBTaxCredits =
-        (MBPersonalAmount + baseCPPTax + EITaxROC) * MBTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * MBEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            MBNonEligibleDivCredit;
+	var MBTaxCredits =
+		(MBPersonalAmount + baseCPPTax + EITaxROC) * MBTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * MBEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * MBNonEligibleDivCredit;
 
-    MBTax = Math.max(MBTaxSubtotal - MBTaxCredits, 0);
-    return MBTax;
+	MBTax = Math.max(MBTaxSubtotal - MBTaxCredits, 0);
+	return MBTax;
 }
 
 function calculateNB(totalTaxableIncome) {
-    //NB Provincial
-    var NBTax = 0;
+	//NB Provincial
+	var NBTax = 0;
 
-    var NBBracket1Amount = 0;
-    var NBBracket2Amount = 0;
-    var NBBracket3Amount = 0;
-    var NBBracket4Amount = 0;
-    var NBBracket5Amount = 0;
+	var NBBracket1Amount = 0;
+	var NBBracket2Amount = 0;
+	var NBBracket3Amount = 0;
+	var NBBracket4Amount = 0;
+	var NBBracket5Amount = 0;
 
-    var NBBracket1Tax = 0;
-    var NBBracket2Tax = 0;
-    var NBBracket3Tax = 0;
-    var NBBracket4Tax = 0;
-    var NBBracket5Tax = 0;
+	var NBBracket1Tax = 0;
+	var NBBracket2Tax = 0;
+	var NBBracket3Tax = 0;
+	var NBBracket4Tax = 0;
+	var NBBracket5Tax = 0;
 
-    NBBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NBBracket1);
-    NBBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NBBracket2) -
-        NBBracket1Amount;
-    NBBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NBBracket3) -
-        NBBracket1Amount -
-        NBBracket2Amount;
-    NBBracket4Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NBBracket4) -
-        NBBracket1Amount -
-        NBBracket2Amount -
-        NBBracket3Amount;
-    NBBracket5Amount =
-        Math.max(0, totalTaxableIncome) -
-        NBBracket1Amount -
-        NBBracket2Amount -
-        NBBracket3Amount -
-        NBBracket4Amount;
+	NBBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NBBracket1);
+	NBBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NBBracket2) - NBBracket1Amount;
+	NBBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NBBracket3) -
+		NBBracket1Amount -
+		NBBracket2Amount;
+	NBBracket4Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NBBracket4) -
+		NBBracket1Amount -
+		NBBracket2Amount -
+		NBBracket3Amount;
+	NBBracket5Amount =
+		Math.max(0, totalTaxableIncome) -
+		NBBracket1Amount -
+		NBBracket2Amount -
+		NBBracket3Amount -
+		NBBracket4Amount;
 
-    NBBracket1Tax = NBBracket1Amount * NBRate1;
-    NBBracket2Tax = NBBracket2Amount * NBRate2;
-    NBBracket3Tax = NBBracket3Amount * NBRate3;
-    NBBracket4Tax = NBBracket4Amount * NBRate4;
-    NBBracket5Tax = NBBracket5Amount * NBRate5;
+	NBBracket1Tax = NBBracket1Amount * NBRate1;
+	NBBracket2Tax = NBBracket2Amount * NBRate2;
+	NBBracket3Tax = NBBracket3Amount * NBRate3;
+	NBBracket4Tax = NBBracket4Amount * NBRate4;
+	NBBracket5Tax = NBBracket5Amount * NBRate5;
 
-    var NBTaxSubtotal =
-        NBBracket1Tax +
-        NBBracket2Tax +
-        NBBracket3Tax +
-        NBBracket4Tax +
-        NBBracket5Tax;
+	var NBTaxSubtotal =
+		NBBracket1Tax +
+		NBBracket2Tax +
+		NBBracket3Tax +
+		NBBracket4Tax +
+		NBBracket5Tax;
 
-    var NBTaxCredits =
-        (NBPersonalAmount + baseCPPTax + EITaxROC) * NBTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * NBEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            NBNonEligibleDivCredit;
+	var NBTaxCredits =
+		(NBPersonalAmount + baseCPPTax + EITaxROC) * NBTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * NBEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * NBNonEligibleDivCredit;
 
-    NBTax = Math.max(NBTaxSubtotal - NBTaxCredits, 0);
-    return NBTax;
+	NBTax = Math.max(NBTaxSubtotal - NBTaxCredits, 0);
+	return NBTax;
 }
 
 function calculateNL(totalTaxableIncome) {
-    //NL Provincial
-    var NLTax = 0;
+	//NL Provincial
+	var NLTax = 0;
 
-    var NLBracket1Amount = 0;
-    var NLBracket2Amount = 0;
-    var NLBracket3Amount = 0;
-    var NLBracket4Amount = 0;
-    var NLBracket5Amount = 0;
+	var NLBracket1Amount = 0;
+	var NLBracket2Amount = 0;
+	var NLBracket3Amount = 0;
+	var NLBracket4Amount = 0;
+	var NLBracket5Amount = 0;
 
-    var NLBracket1Tax = 0;
-    var NLBracket2Tax = 0;
-    var NLBracket3Tax = 0;
-    var NLBracket4Tax = 0;
-    var NLBracket5Tax = 0;
+	var NLBracket1Tax = 0;
+	var NLBracket2Tax = 0;
+	var NLBracket3Tax = 0;
+	var NLBracket4Tax = 0;
+	var NLBracket5Tax = 0;
 
-    NLBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NLBracket1);
-    NLBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NLBracket2) -
-        NLBracket1Amount;
-    NLBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NLBracket3) -
-        NLBracket1Amount -
-        NLBracket2Amount;
-    NLBracket4Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NLBracket4) -
-        NLBracket1Amount -
-        NLBracket2Amount -
-        NLBracket3Amount;
-    NLBracket5Amount =
-        Math.max(0, totalTaxableIncome) -
-        NLBracket1Amount -
-        NLBracket2Amount -
-        NLBracket3Amount -
-        NLBracket4Amount;
+	NLBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NLBracket1);
+	NLBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NLBracket2) - NLBracket1Amount;
+	NLBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NLBracket3) -
+		NLBracket1Amount -
+		NLBracket2Amount;
+	NLBracket4Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NLBracket4) -
+		NLBracket1Amount -
+		NLBracket2Amount -
+		NLBracket3Amount;
+	NLBracket5Amount =
+		Math.max(0, totalTaxableIncome) -
+		NLBracket1Amount -
+		NLBracket2Amount -
+		NLBracket3Amount -
+		NLBracket4Amount;
 
-    NLBracket1Tax = NLBracket1Amount * NLRate1;
-    NLBracket2Tax = NLBracket2Amount * NLRate2;
-    NLBracket3Tax = NLBracket3Amount * NLRate3;
-    NLBracket4Tax = NLBracket4Amount * NLRate4;
-    NLBracket5Tax = NLBracket5Amount * NLRate5;
+	NLBracket1Tax = NLBracket1Amount * NLRate1;
+	NLBracket2Tax = NLBracket2Amount * NLRate2;
+	NLBracket3Tax = NLBracket3Amount * NLRate3;
+	NLBracket4Tax = NLBracket4Amount * NLRate4;
+	NLBracket5Tax = NLBracket5Amount * NLRate5;
 
-    var NLTaxSubtotal =
-        NLBracket1Tax +
-        NLBracket2Tax +
-        NLBracket3Tax +
-        NLBracket4Tax +
-        NLBracket5Tax;
+	var NLTaxSubtotal =
+		NLBracket1Tax +
+		NLBracket2Tax +
+		NLBracket3Tax +
+		NLBracket4Tax +
+		NLBracket5Tax;
 
-    var NLTaxCredits =
-        (NLPersonalAmount + baseCPPTax + EITaxROC) * NLTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * NLEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            NLNonEligibleDivCredit;
+	var NLTaxCredits =
+		(NLPersonalAmount + baseCPPTax + EITaxROC) * NLTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * NLEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * NLNonEligibleDivCredit;
 
-    NLTax = Math.max(NLTaxSubtotal - NLTaxCredits, 0);
-    return NLTax;
+	NLTax = Math.max(NLTaxSubtotal - NLTaxCredits, 0);
+	return NLTax;
 }
 
 function calculateNT(totalTaxableIncome) {
-    //NT Territorial
-    var NTTax = 0;
+	//NT Territorial
+	var NTTax = 0;
 
-    var NTBracket1Amount = 0;
-    var NTBracket2Amount = 0;
-    var NTBracket3Amount = 0;
-    var NTBracket4Amount = 0;
+	var NTBracket1Amount = 0;
+	var NTBracket2Amount = 0;
+	var NTBracket3Amount = 0;
+	var NTBracket4Amount = 0;
 
-    var NTBracket1Tax = 0;
-    var NTBracket2Tax = 0;
-    var NTBracket3Tax = 0;
-    var NTBracket4Tax = 0;
+	var NTBracket1Tax = 0;
+	var NTBracket2Tax = 0;
+	var NTBracket3Tax = 0;
+	var NTBracket4Tax = 0;
 
-    NTBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NTBracket1);
-    NTBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NTBracket2) -
-        NTBracket1Amount;
-    NTBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NTBracket3) -
-        NTBracket1Amount -
-        NTBracket2Amount;
-    NTBracket4Amount =
-        Math.max(0, totalTaxableIncome) -
-        NTBracket1Amount -
-        NTBracket2Amount -
-        NTBracket3Amount;
+	NTBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NTBracket1);
+	NTBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NTBracket2) - NTBracket1Amount;
+	NTBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NTBracket3) -
+		NTBracket1Amount -
+		NTBracket2Amount;
+	NTBracket4Amount =
+		Math.max(0, totalTaxableIncome) -
+		NTBracket1Amount -
+		NTBracket2Amount -
+		NTBracket3Amount;
 
-    NTBracket1Tax = NTBracket1Amount * NTRate1;
-    NTBracket2Tax = NTBracket2Amount * NTRate2;
-    NTBracket3Tax = NTBracket3Amount * NTRate3;
-    NTBracket4Tax = NTBracket4Amount * NTRate4;
+	NTBracket1Tax = NTBracket1Amount * NTRate1;
+	NTBracket2Tax = NTBracket2Amount * NTRate2;
+	NTBracket3Tax = NTBracket3Amount * NTRate3;
+	NTBracket4Tax = NTBracket4Amount * NTRate4;
 
-    var NTTaxSubtotal =
-        NTBracket1Tax + NTBracket2Tax + NTBracket3Tax + NTBracket4Tax;
+	var NTTaxSubtotal =
+		NTBracket1Tax + NTBracket2Tax + NTBracket3Tax + NTBracket4Tax;
 
-    var NTTaxCredits =
-        (NTPersonalAmount + baseCPPTax + EITaxROC) * NTTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * NTEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            NTNonEligibleDivCredit;
+	var NTTaxCredits =
+		(NTPersonalAmount + baseCPPTax + EITaxROC) * NTTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * NTEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * NTNonEligibleDivCredit;
 
-    NTTax = Math.max(NTTaxSubtotal - NTTaxCredits, 0);
-    return NTTax;
+	NTTax = Math.max(NTTaxSubtotal - NTTaxCredits, 0);
+	return NTTax;
 }
 
 function calculateNS(totalTaxableIncome) {
-    //NS Provincial
-    var NSTax = 0;
+	//NS Provincial
+	var NSTax = 0;
 
-    var NSBracket1Amount = 0;
-    var NSBracket2Amount = 0;
-    var NSBracket3Amount = 0;
-    var NSBracket4Amount = 0;
-    var NSBracket5Amount = 0;
+	var NSBracket1Amount = 0;
+	var NSBracket2Amount = 0;
+	var NSBracket3Amount = 0;
+	var NSBracket4Amount = 0;
+	var NSBracket5Amount = 0;
 
-    var NSBracket1Tax = 0;
-    var NSBracket2Tax = 0;
-    var NSBracket3Tax = 0;
-    var NSBracket4Tax = 0;
-    var NSBracket5Tax = 0;
+	var NSBracket1Tax = 0;
+	var NSBracket2Tax = 0;
+	var NSBracket3Tax = 0;
+	var NSBracket4Tax = 0;
+	var NSBracket5Tax = 0;
 
-    NSBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NSBracket1);
-    NSBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NSBracket2) -
-        NSBracket1Amount;
-    NSBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NSBracket3) -
-        NSBracket1Amount -
-        NSBracket2Amount;
-    NSBracket4Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NSBracket4) -
-        NSBracket1Amount -
-        NSBracket2Amount -
-        NSBracket3Amount;
-    NSBracket5Amount =
-        Math.max(0, totalTaxableIncome) -
-        NSBracket1Amount -
-        NSBracket2Amount -
-        NSBracket3Amount -
-        NSBracket4Amount;
+	NSBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NSBracket1);
+	NSBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NSBracket2) - NSBracket1Amount;
+	NSBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NSBracket3) -
+		NSBracket1Amount -
+		NSBracket2Amount;
+	NSBracket4Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NSBracket4) -
+		NSBracket1Amount -
+		NSBracket2Amount -
+		NSBracket3Amount;
+	NSBracket5Amount =
+		Math.max(0, totalTaxableIncome) -
+		NSBracket1Amount -
+		NSBracket2Amount -
+		NSBracket3Amount -
+		NSBracket4Amount;
 
-    NSBracket1Tax = NSBracket1Amount * NSRate1;
-    NSBracket2Tax = NSBracket2Amount * NSRate2;
-    NSBracket3Tax = NSBracket3Amount * NSRate3;
-    NSBracket4Tax = NSBracket4Amount * NSRate4;
-    NSBracket5Tax = NSBracket5Amount * NSRate5;
+	NSBracket1Tax = NSBracket1Amount * NSRate1;
+	NSBracket2Tax = NSBracket2Amount * NSRate2;
+	NSBracket3Tax = NSBracket3Amount * NSRate3;
+	NSBracket4Tax = NSBracket4Amount * NSRate4;
+	NSBracket5Tax = NSBracket5Amount * NSRate5;
 
-    var NSTaxSubtotal =
-        NSBracket1Tax +
-        NSBracket2Tax +
-        NSBracket3Tax +
-        NSBracket4Tax +
-        NSBracket5Tax;
+	var NSTaxSubtotal =
+		NSBracket1Tax +
+		NSBracket2Tax +
+		NSBracket3Tax +
+		NSBracket4Tax +
+		NSBracket5Tax;
 
-    NSEnhancedPersonalAmount = Math.max(
-        0,
-        3000 - Math.max(0, (totalTaxableIncome - 25000) * 0.06)
-    );
-    NSTotalPersonalAmount = NSPersonalAmount + NSEnhancedPersonalAmount;
+	NSEnhancedPersonalAmount = Math.max(
+		0,
+		3000 - Math.max(0, (totalTaxableIncome - 25000) * 0.06)
+	);
+	NSTotalPersonalAmount = NSPersonalAmount + NSEnhancedPersonalAmount;
 
-    var NSTaxCredits =
-        (NSTotalPersonalAmount + baseCPPTax + EITaxROC) * NSTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * NSEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            NSNonEligibleDivCredit;
+	var NSTaxCredits =
+		(NSTotalPersonalAmount + baseCPPTax + EITaxROC) * NSTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * NSEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * NSNonEligibleDivCredit;
 
-    NSTax = Math.max(NSTaxSubtotal - NSTaxCredits, 0);
-    return NSTax;
+	NSTax = Math.max(NSTaxSubtotal - NSTaxCredits, 0);
+	return NSTax;
 }
 
 function calculateNU(totalTaxableIncome) {
-    //NU Territorial
-    var NUTax = 0;
+	//NU Territorial
+	var NUTax = 0;
 
-    var NUBracket1Amount = 0;
-    var NUBracket2Amount = 0;
-    var NUBracket3Amount = 0;
-    var NUBracket4Amount = 0;
+	var NUBracket1Amount = 0;
+	var NUBracket2Amount = 0;
+	var NUBracket3Amount = 0;
+	var NUBracket4Amount = 0;
 
-    var NUBracket1Tax = 0;
-    var NUBracket2Tax = 0;
-    var NUBracket3Tax = 0;
-    var NUBracket4Tax = 0;
+	var NUBracket1Tax = 0;
+	var NUBracket2Tax = 0;
+	var NUBracket3Tax = 0;
+	var NUBracket4Tax = 0;
 
-    NUBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NUBracket1);
-    NUBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NUBracket2) -
-        NUBracket1Amount;
-    NUBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), NUBracket3) -
-        NUBracket1Amount -
-        NUBracket2Amount;
-    NUBracket4Amount =
-        Math.max(0, totalTaxableIncome) -
-        NUBracket1Amount -
-        NUBracket2Amount -
-        NUBracket3Amount;
+	NUBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), NUBracket1);
+	NUBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NUBracket2) - NUBracket1Amount;
+	NUBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), NUBracket3) -
+		NUBracket1Amount -
+		NUBracket2Amount;
+	NUBracket4Amount =
+		Math.max(0, totalTaxableIncome) -
+		NUBracket1Amount -
+		NUBracket2Amount -
+		NUBracket3Amount;
 
-    NUBracket1Tax = NUBracket1Amount * NURate1;
-    NUBracket2Tax = NUBracket2Amount * NURate2;
-    NUBracket3Tax = NUBracket3Amount * NURate3;
-    NUBracket4Tax = NUBracket4Amount * NURate4;
+	NUBracket1Tax = NUBracket1Amount * NURate1;
+	NUBracket2Tax = NUBracket2Amount * NURate2;
+	NUBracket3Tax = NUBracket3Amount * NURate3;
+	NUBracket4Tax = NUBracket4Amount * NURate4;
 
-    var NUTaxSubtotal =
-        NUBracket1Tax + NUBracket2Tax + NUBracket3Tax + NUBracket4Tax;
+	var NUTaxSubtotal =
+		NUBracket1Tax + NUBracket2Tax + NUBracket3Tax + NUBracket4Tax;
 
-    var NUTaxCredits =
-        (NUPersonalAmount + baseCPPTax + EITaxROC) * NUTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * NUEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            NUNonEligibleDivCredit;
+	var NUTaxCredits =
+		(NUPersonalAmount + baseCPPTax + EITaxROC) * NUTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * NUEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * NUNonEligibleDivCredit;
 
-    NUTax = Math.max(NUTaxSubtotal - NUTaxCredits, 0);
-    return NUTax;
+	NUTax = Math.max(NUTaxSubtotal - NUTaxCredits, 0);
+	return NUTax;
 }
 
 function calculateON(totalTaxableIncome) {
-    //ON Provincial
-    var ONTax = 0;
+	//ON Provincial
+	var ONTax = 0;
 
-    var ONBracket1Amount = 0;
-    var ONBracket2Amount = 0;
-    var ONBracket3Amount = 0;
-    var ONBracket4Amount = 0;
-    var ONBracket5Amount = 0;
+	var ONBracket1Amount = 0;
+	var ONBracket2Amount = 0;
+	var ONBracket3Amount = 0;
+	var ONBracket4Amount = 0;
+	var ONBracket5Amount = 0;
 
-    var ONBracket1Tax = 0;
-    var ONBracket2Tax = 0;
-    var ONBracket3Tax = 0;
-    var ONBracket4Tax = 0;
-    var ONBracket5Tax = 0;
+	var ONBracket1Tax = 0;
+	var ONBracket2Tax = 0;
+	var ONBracket3Tax = 0;
+	var ONBracket4Tax = 0;
+	var ONBracket5Tax = 0;
 
-    ONBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), ONBracket1);
-    ONBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), ONBracket2) -
-        ONBracket1Amount;
-    ONBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), ONBracket3) -
-        ONBracket1Amount -
-        ONBracket2Amount;
-    ONBracket4Amount =
-        Math.min(Math.max(0, totalTaxableIncome), ONBracket4) -
-        ONBracket1Amount -
-        ONBracket2Amount -
-        ONBracket3Amount;
-    ONBracket5Amount =
-        Math.max(0, totalTaxableIncome) -
-        ONBracket1Amount -
-        ONBracket2Amount -
-        ONBracket3Amount -
-        ONBracket4Amount;
+	ONBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), ONBracket1);
+	ONBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), ONBracket2) - ONBracket1Amount;
+	ONBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), ONBracket3) -
+		ONBracket1Amount -
+		ONBracket2Amount;
+	ONBracket4Amount =
+		Math.min(Math.max(0, totalTaxableIncome), ONBracket4) -
+		ONBracket1Amount -
+		ONBracket2Amount -
+		ONBracket3Amount;
+	ONBracket5Amount =
+		Math.max(0, totalTaxableIncome) -
+		ONBracket1Amount -
+		ONBracket2Amount -
+		ONBracket3Amount -
+		ONBracket4Amount;
 
-    ONBracket1Tax = ONBracket1Amount * ONRate1;
-    ONBracket2Tax = ONBracket2Amount * ONRate2;
-    ONBracket3Tax = ONBracket3Amount * ONRate3;
-    ONBracket4Tax = ONBracket4Amount * ONRate4;
-    ONBracket5Tax = ONBracket5Amount * ONRate5;
+	ONBracket1Tax = ONBracket1Amount * ONRate1;
+	ONBracket2Tax = ONBracket2Amount * ONRate2;
+	ONBracket3Tax = ONBracket3Amount * ONRate3;
+	ONBracket4Tax = ONBracket4Amount * ONRate4;
+	ONBracket5Tax = ONBracket5Amount * ONRate5;
 
-    var ONTaxCredits1 =
-        (ONPersonalAmount + baseCPPTax + EITaxROC) * ONTaxCreditRate;
+	var ONTaxCredits1 =
+		(ONPersonalAmount + baseCPPTax + EITaxROC) * ONTaxCreditRate;
 
-    var ONTaxBeforeSurtax =
-        ONBracket1Tax +
-        ONBracket2Tax +
-        ONBracket3Tax +
-        ONBracket4Tax +
-        ONBracket5Tax -
-        ONTaxCredits1;
+	var ONTaxBeforeSurtax =
+		ONBracket1Tax +
+		ONBracket2Tax +
+		ONBracket3Tax +
+		ONBracket4Tax +
+		ONBracket5Tax -
+		ONTaxCredits1;
 
-    var ONSurtax =
-        Math.max(0, ONTaxBeforeSurtax - ONSurtax1) * ONSurtax1Rate +
-        Math.max(0, ONTaxBeforeSurtax - ONSurtax2) * ONSurtax2Rate;
+	var ONSurtax =
+		Math.max(0, ONTaxBeforeSurtax - ONSurtax1) * ONSurtax1Rate +
+		Math.max(0, ONTaxBeforeSurtax - ONSurtax2) * ONSurtax2Rate;
 
-    var ONTaxCredits2 =
-        eligibleDividends * (1 + eligibleGrossUp) * ONEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            ONNonEligibleDivCredit;
+	var ONTaxCredits2 =
+		eligibleDividends * (1 + eligibleGrossUp) * ONEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * ONNonEligibleDivCredit;
 
-    var OHIPContribution = calculateOHIP(totalTaxableIncome);
+	var OHIPContribution = calculateOHIP(totalTaxableIncome);
 
-    ONTax =
-        Math.max(ONTaxBeforeSurtax + ONSurtax - ONTaxCredits2, 0) +
-        OHIPContribution;
-    return ONTax;
+	ONTax =
+		Math.max(ONTaxBeforeSurtax + ONSurtax - ONTaxCredits2, 0) +
+		OHIPContribution;
+	return ONTax;
 }
 
 function calculatePE(totalTaxableIncome) {
-    //PE Provincial
-    var PETax = 0;
+	//PE Provincial
+	var PETax = 0;
 
-    var PEBracket1Amount = 0;
-    var PEBracket2Amount = 0;
-    var PEBracket3Amount = 0;
+	var PEBracket1Amount = 0;
+	var PEBracket2Amount = 0;
+	var PEBracket3Amount = 0;
 
-    var PEBracket1Tax = 0;
-    var PEBracket2Tax = 0;
-    var PEBracket3Tax = 0;
+	var PEBracket1Tax = 0;
+	var PEBracket2Tax = 0;
+	var PEBracket3Tax = 0;
 
-    PEBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), PEBracket1);
-    PEBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), PEBracket2) -
-        PEBracket1Amount;
-    PEBracket3Amount =
-        Math.max(0, totalTaxableIncome) - PEBracket1Amount - PEBracket2Amount;
+	PEBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), PEBracket1);
+	PEBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), PEBracket2) - PEBracket1Amount;
+	PEBracket3Amount =
+		Math.max(0, totalTaxableIncome) - PEBracket1Amount - PEBracket2Amount;
 
-    PEBracket1Tax = PEBracket1Amount * PERate1;
-    PEBracket2Tax = PEBracket2Amount * PERate2;
-    PEBracket3Tax = PEBracket3Amount * PERate3;
+	PEBracket1Tax = PEBracket1Amount * PERate1;
+	PEBracket2Tax = PEBracket2Amount * PERate2;
+	PEBracket3Tax = PEBracket3Amount * PERate3;
 
-    var PETaxSubtotal = PEBracket1Tax + PEBracket2Tax + PEBracket3Tax;
+	var PETaxSubtotal = PEBracket1Tax + PEBracket2Tax + PEBracket3Tax;
 
-    var PETaxCredits =
-        (PEPersonalAmount + baseCPPTax + EITaxROC) * PETaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * PEEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            PENonEligibleDivCredit;
+	var PETaxCredits =
+		(PEPersonalAmount + baseCPPTax + EITaxROC) * PETaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * PEEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * PENonEligibleDivCredit;
 
-    var PETaxBeforeSurtax = Math.max(PETaxSubtotal - PETaxCredits, 0);
+	var PETaxBeforeSurtax = Math.max(PETaxSubtotal - PETaxCredits, 0);
 
-    var PESurtax = Math.max(PETaxBeforeSurtax - PESurtax1, 0) * PESurtax1Rate;
+	var PESurtax = Math.max(PETaxBeforeSurtax - PESurtax1, 0) * PESurtax1Rate;
 
-    PETax = PETaxBeforeSurtax + PESurtax;
-    return PETax;
+	PETax = PETaxBeforeSurtax + PESurtax;
+	return PETax;
 }
 
 function calculateQC(totalTaxableIncome) {
-    //QC Provincial
-    var QCTax = 0;
+	//QC Provincial
+	var QCTax = 0;
 
-    var QCBracket1Amount = 0;
-    var QCBracket2Amount = 0;
-    var QCBracket3Amount = 0;
-    var QCBracket4Amount = 0;
+	var QCBracket1Amount = 0;
+	var QCBracket2Amount = 0;
+	var QCBracket3Amount = 0;
+	var QCBracket4Amount = 0;
 
-    var QCBracket1Tax = 0;
-    var QCBracket2Tax = 0;
-    var QCBracket3Tax = 0;
-    var QCBracket4Tax = 0;
+	var QCBracket1Tax = 0;
+	var QCBracket2Tax = 0;
+	var QCBracket3Tax = 0;
+	var QCBracket4Tax = 0;
 
-    QCBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), QCBracket1);
-    QCBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), QCBracket2) -
-        QCBracket1Amount;
-    QCBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), QCBracket3) -
-        QCBracket1Amount -
-        QCBracket2Amount;
-    QCBracket4Amount =
-        Math.max(0, totalTaxableIncome) -
-        QCBracket1Amount -
-        QCBracket2Amount -
-        QCBracket3Amount;
+	QCBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), QCBracket1);
+	QCBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), QCBracket2) - QCBracket1Amount;
+	QCBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), QCBracket3) -
+		QCBracket1Amount -
+		QCBracket2Amount;
+	QCBracket4Amount =
+		Math.max(0, totalTaxableIncome) -
+		QCBracket1Amount -
+		QCBracket2Amount -
+		QCBracket3Amount;
 
-    QCBracket1Tax = QCBracket1Amount * QCRate1;
-    QCBracket2Tax = QCBracket2Amount * QCRate2;
-    QCBracket3Tax = QCBracket3Amount * QCRate3;
-    QCBracket4Tax = QCBracket4Amount * QCRate4;
+	QCBracket1Tax = QCBracket1Amount * QCRate1;
+	QCBracket2Tax = QCBracket2Amount * QCRate2;
+	QCBracket3Tax = QCBracket3Amount * QCRate3;
+	QCBracket4Tax = QCBracket4Amount * QCRate4;
 
-    var QCTaxSubtotal =
-        QCBracket1Tax + QCBracket2Tax + QCBracket3Tax + QCBracket4Tax;
+	var QCTaxSubtotal =
+		QCBracket1Tax + QCBracket2Tax + QCBracket3Tax + QCBracket4Tax;
 
-    var QCTaxCredits =
-        QCPersonalAmount * QCTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * QCEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            QCNonEligibleDivCredit;
+	var QCTaxCredits =
+		QCPersonalAmount * QCTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * QCEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * QCNonEligibleDivCredit;
 
-    QCTax = Math.max(QCTaxSubtotal - QCTaxCredits, 0);
-    return QCTax;
+	QCTax = Math.max(QCTaxSubtotal - QCTaxCredits, 0);
+	return QCTax;
 }
 
 function calculateSK(totalTaxableIncome) {
-    //SK Provincial
-    var SKTax = 0;
+	//SK Provincial
+	var SKTax = 0;
 
-    var SKBracket1Amount = 0;
-    var SKBracket2Amount = 0;
-    var SKBracket3Amount = 0;
+	var SKBracket1Amount = 0;
+	var SKBracket2Amount = 0;
+	var SKBracket3Amount = 0;
 
-    var SKBracket1Tax = 0;
-    var SKBracket2Tax = 0;
-    var SKBracket3Tax = 0;
+	var SKBracket1Tax = 0;
+	var SKBracket2Tax = 0;
+	var SKBracket3Tax = 0;
 
-    SKBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), SKBracket1);
-    SKBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), SKBracket2) -
-        SKBracket1Amount;
-    SKBracket3Amount =
-        Math.max(0, totalTaxableIncome) - SKBracket1Amount - SKBracket2Amount;
+	SKBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), SKBracket1);
+	SKBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), SKBracket2) - SKBracket1Amount;
+	SKBracket3Amount =
+		Math.max(0, totalTaxableIncome) - SKBracket1Amount - SKBracket2Amount;
 
-    SKBracket1Tax = SKBracket1Amount * SKRate1;
-    SKBracket2Tax = SKBracket2Amount * SKRate2;
-    SKBracket3Tax = SKBracket3Amount * SKRate3;
+	SKBracket1Tax = SKBracket1Amount * SKRate1;
+	SKBracket2Tax = SKBracket2Amount * SKRate2;
+	SKBracket3Tax = SKBracket3Amount * SKRate3;
 
-    var SKTaxSubtotal = SKBracket1Tax + SKBracket2Tax + SKBracket3Tax;
+	var SKTaxSubtotal = SKBracket1Tax + SKBracket2Tax + SKBracket3Tax;
 
-    var SKTaxCredits =
-        (SKPersonalAmount + baseCPPTax + EITaxROC) * SKTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * SKEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            SKNonEligibleDivCredit;
+	var SKTaxCredits =
+		(SKPersonalAmount + baseCPPTax + EITaxROC) * SKTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * SKEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * SKNonEligibleDivCredit;
 
-    SKTax = Math.max(SKTaxSubtotal - SKTaxCredits, 0);
-    return SKTax;
+	SKTax = Math.max(SKTaxSubtotal - SKTaxCredits, 0);
+	return SKTax;
 }
 
 function calculateYT(totalTaxableIncome) {
-    //YT Territorial
-    var YTTax = 0;
+	//YT Territorial
+	var YTTax = 0;
 
-    var YTBracket1Amount = 0;
-    var YTBracket2Amount = 0;
-    var YTBracket3Amount = 0;
-    var YTBracket4Amount = 0;
-    var YTBracket5Amount = 0;
+	var YTBracket1Amount = 0;
+	var YTBracket2Amount = 0;
+	var YTBracket3Amount = 0;
+	var YTBracket4Amount = 0;
+	var YTBracket5Amount = 0;
 
-    var YTBracket1Tax = 0;
-    var YTBracket2Tax = 0;
-    var YTBracket3Tax = 0;
-    var YTBracket4Tax = 0;
-    var YTBracket5Tax = 0;
+	var YTBracket1Tax = 0;
+	var YTBracket2Tax = 0;
+	var YTBracket3Tax = 0;
+	var YTBracket4Tax = 0;
+	var YTBracket5Tax = 0;
 
-    YTBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), YTBracket1);
-    YTBracket2Amount =
-        Math.min(Math.max(0, totalTaxableIncome), YTBracket2) -
-        YTBracket1Amount;
-    YTBracket3Amount =
-        Math.min(Math.max(0, totalTaxableIncome), YTBracket3) -
-        YTBracket1Amount -
-        YTBracket2Amount;
-    YTBracket4Amount =
-        Math.min(Math.max(0, totalTaxableIncome), YTBracket4) -
-        YTBracket1Amount -
-        YTBracket2Amount -
-        YTBracket3Amount;
-    YTBracket5Amount =
-        Math.max(0, totalTaxableIncome) -
-        YTBracket1Amount -
-        YTBracket2Amount -
-        YTBracket3Amount -
-        YTBracket4Amount;
+	YTBracket1Amount = Math.min(Math.max(0, totalTaxableIncome), YTBracket1);
+	YTBracket2Amount =
+		Math.min(Math.max(0, totalTaxableIncome), YTBracket2) - YTBracket1Amount;
+	YTBracket3Amount =
+		Math.min(Math.max(0, totalTaxableIncome), YTBracket3) -
+		YTBracket1Amount -
+		YTBracket2Amount;
+	YTBracket4Amount =
+		Math.min(Math.max(0, totalTaxableIncome), YTBracket4) -
+		YTBracket1Amount -
+		YTBracket2Amount -
+		YTBracket3Amount;
+	YTBracket5Amount =
+		Math.max(0, totalTaxableIncome) -
+		YTBracket1Amount -
+		YTBracket2Amount -
+		YTBracket3Amount -
+		YTBracket4Amount;
 
-    YTBracket1Tax = YTBracket1Amount * YTRate1;
-    YTBracket2Tax = YTBracket2Amount * YTRate2;
-    YTBracket3Tax = YTBracket3Amount * YTRate3;
-    YTBracket4Tax = YTBracket4Amount * YTRate4;
-    YTBracket5Tax = YTBracket5Amount * YTRate5;
+	YTBracket1Tax = YTBracket1Amount * YTRate1;
+	YTBracket2Tax = YTBracket2Amount * YTRate2;
+	YTBracket3Tax = YTBracket3Amount * YTRate3;
+	YTBracket4Tax = YTBracket4Amount * YTRate4;
+	YTBracket5Tax = YTBracket5Amount * YTRate5;
 
-    var YTTaxSubtotal =
-        YTBracket1Tax +
-        YTBracket2Tax +
-        YTBracket3Tax +
-        YTBracket4Tax +
-        YTBracket5Tax;
+	var YTTaxSubtotal =
+		YTBracket1Tax +
+		YTBracket2Tax +
+		YTBracket3Tax +
+		YTBracket4Tax +
+		YTBracket5Tax;
 
-    var YTTaxCredits =
-        (YTPersonalAmount + baseCPPTax + EITaxROC + federalEmploymentAmount) *
-            YTTaxCreditRate +
-        eligibleDividends * (1 + eligibleGrossUp) * YTEligibleDivCredit +
-        nonEligibleDividends *
-            (1 + nonEligibleGrossUp) *
-            YTNonEligibleDivCredit;
+	var YTTaxCredits =
+		(YTPersonalAmount + baseCPPTax + EITaxROC + federalEmploymentAmount) *
+			YTTaxCreditRate +
+		eligibleDividends * (1 + eligibleGrossUp) * YTEligibleDivCredit +
+		nonEligibleDividends * (1 + nonEligibleGrossUp) * YTNonEligibleDivCredit;
 
-    YTTax = Math.max(YTTaxSubtotal - YTTaxCredits, 0);
-    return YTTax;
+	YTTax = Math.max(YTTaxSubtotal - YTTaxCredits, 0);
+	return YTTax;
 }
 
 const provincialTaxFunctions = {
-    AB: calculateAB,
-    BC: calculateBC,
-    MB: calculateMB,
-    NB: calculateNB,
-    NL: calculateNL,
-    NT: calculateNT,
-    NS: calculateNS,
-    NU: calculateNU,
-    ON: calculateON,
-    PE: calculatePE,
-    QC: calculateQC,
-    SK: calculateSK,
-    YT: calculateYT,
+	AB: calculateAB,
+	BC: calculateBC,
+	MB: calculateMB,
+	NB: calculateNB,
+	NL: calculateNL,
+	NT: calculateNT,
+	NS: calculateNS,
+	NU: calculateNU,
+	ON: calculateON,
+	PE: calculatePE,
+	QC: calculateQC,
+	SK: calculateSK,
+	YT: calculateYT,
 };
 
 var labelArray = [
-    'AB',
-    'BC',
-    'MB',
-    'NB',
-    'NL',
-    'NT',
-    'NS',
-    'NU',
-    'ON',
-    'PE',
-    'QC',
-    'SK',
-    'YT',
+	'AB',
+	'BC',
+	'MB',
+	'NB',
+	'NL',
+	'NT',
+	'NS',
+	'NU',
+	'ON',
+	'PE',
+	'QC',
+	'SK',
+	'YT',
 ];
 
 function calculateNetIncome(totalTaxableIncome, province) {
-    if (province == 'QC') {
-        return (
-            totalTaxableIncome -
-            calculateFedTaxes(totalTaxableIncome, true) -
-            provincialTaxFunctions[province](totalTaxableIncome) -
-            calculateQPP(totalTaxableIncome) -
-            calculateEI(totalTaxableIncome, true) -
-            calculateQPIP(totalTaxableIncome)
-        );
-    }
-    return (
-        totalTaxableIncome -
-        calculateFedTaxes(totalTaxableIncome) -
-        provincialTaxFunctions[province](totalTaxableIncome) -
-        calculateCPP(totalTaxableIncome) -
-        calculateEI(totalTaxableIncome)
-    );
+	if (province === 'QC') {
+		return (
+			totalTaxableIncome -
+			calculateFedTaxes(totalTaxableIncome, true) -
+			provincialTaxFunctions[province](totalTaxableIncome) -
+			calculateQPP(totalTaxableIncome) -
+			calculateEI(totalTaxableIncome, true) -
+			calculateQPIP(totalTaxableIncome)
+		);
+	}
+	return (
+		totalTaxableIncome -
+		calculateFedTaxes(totalTaxableIncome) -
+		provincialTaxFunctions[province](totalTaxableIncome) -
+		calculateCPP(totalTaxableIncome) -
+		calculateEI(totalTaxableIncome)
+	);
 }
 
 module.exports = {
-    calculateNetIncome,
+	calculateNetIncome,
 };

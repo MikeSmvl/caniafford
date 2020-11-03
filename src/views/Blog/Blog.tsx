@@ -2,6 +2,8 @@ import React from 'react';
 import './Blog.scss';
 import * as constants from 'utils/constants.json';
 import ArticleMetadata from 'components/ArticleMetadata/ArticleMetadata';
+import NavButton from 'components/NavButton/NavButton';
+import { useLocation, useHistory } from 'react-router-dom';
 
 const createQueryParams = (params: any) => {
 	return Object.keys(params)
@@ -10,35 +12,61 @@ const createQueryParams = (params: any) => {
 };
 
 interface Article {
-	title?: string;
-	author?: string;
-	date?: string;
+	title: string;
+	author: string;
+	date: string;
+	blogNumber: number;
 }
-
 const Blog = () => {
-	const [articles, setArticles] = React.useState([]);
+	const [articles, setArticles] = React.useState<Article[]>([]);
+	const history = useHistory();
+	const location = useLocation();
+
 	React.useEffect(() => {
 		const getData = async () => {
-			const response = await fetch(
-				constants.blog.url + createQueryParams(constants.blog.params)
-			);
-			return response.json();
+			try {
+				const urlParams = new URLSearchParams(location.search);
+				const startAt = urlParams.get('startAt');
+				const endAt = urlParams.get('endAt');
+				let url = constants.blog.url + createQueryParams(constants.blog.params);
+				if (startAt && endAt) {
+					url +=
+						'&' +
+						createQueryParams({
+							startAt: parseInt(startAt),
+							endAt: parseInt(endAt),
+						});
+				}
+				const response = await fetch(url);
+				if (response.status === 200) {
+					return response.json();
+				}
+				console.log(response);
+				history.push('/404');
+			} catch (err) {
+				console.log(err);
+				history.push('/404');
+			}
 		};
 		getData().then((data) => {
+			if (!data || data === null) {
+				history.push('/404');
+				return;
+			}
 			let arrayData: any = Object.keys(data).map((key) => {
 				return data[key];
 			});
 			arrayData.sort(function (a: Article, b: Article) {
 				// Turn your strings into dates, and then subtract them
 				// to get a value that is either negative, positive, or zero.
-				if (typeof a.date == 'string' && typeof b.date == 'string') {
+				if (typeof a.date === 'string' && typeof b.date === 'string') {
 					return new Date(b.date).getTime() - new Date(a.date).getTime();
 				}
 				return null;
 			});
 			setArticles(arrayData);
 		});
-	}, []);
+	}, [location, history]);
 
 	return (
 		<div className="grid grid-cols-3 md:grid-cols-6 xl:grid-cols-4">
@@ -57,6 +85,12 @@ const Blog = () => {
 							<ArticleMetadata key={article.title} article={article} />
 						))}
 				</div>
+				{articles.length > 0 && (
+					<div className="grid grid-cols-4">
+						<NavButton type="prev" articles={articles} />
+						<NavButton type="next" articles={articles} />
+					</div>
+				)}
 			</div>
 		</div>
 	);

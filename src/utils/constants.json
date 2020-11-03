@@ -10,7 +10,7 @@
 	"blog": {
 		"url": "https://housingstrategy.firebaseio.com/home/blog/metadata.json?",
 		"params": {
-			"limitToLast": "5",
+			"limitToLast": "4",
 			"orderBy": "\"blogNumber\""
 		}
 	}

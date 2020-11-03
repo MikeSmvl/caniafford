@@ -28,7 +28,7 @@ const ArticleMetadata = (props: IArticleMetadataProps) => {
 				<li>
 					{article && (
 						<Link
-							to={'/blog/' + encodeURIComponent(article.title)}
+							to={'/article/' + encodeURIComponent(article.title)}
 							className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
 						>
 							<div className="flex items-center px-4 py-4 sm:px-6">

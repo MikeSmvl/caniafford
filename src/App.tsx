@@ -19,7 +19,8 @@ export default function App() {
 				<Navbar />
 				<div id="Switch">
 					<Switch>
-						<Route exact path="/blog/:article" component={Article} />
+						<Route exact path="/article/:article" component={Article} />
+						<Route exact path="/blog/:startAt" component={Blog} />
 						<Route exact path="/blog" component={Blog} />
 						<Route exact path="/" component={Home} />
 						<Route exact path="/404" component={NotFound} />
