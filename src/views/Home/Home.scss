@@ -1,5 +1,5 @@
 .Home {
-	margin-top: 64px;
+	margin-top: 30px;
 	text-align: center;
 	display: grid;
 	justify-content: center;
@@ -18,6 +18,7 @@
 	// .right-side {
 	// font-size: 1.5vw;
 	// }
+	padding-bottom: 100px;
 }
 
 .Home-link {
@@ -37,4 +38,12 @@
 	.right-side {
 		margin-bottom: 100px;
 	}
+}
+
+.Fundamentals > p {
+	font-family: 'Quicksand', sans-serif;
+	font-size: 21px;
+	letter-spacing: -0.03px;
+	line-height: 1.58;
+	margin-bottom: 20px;
 }
